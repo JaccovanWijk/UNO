@@ -55,36 +55,82 @@ def ageDemo():
     mp.show()
 
 def societyDemo():
-    print('Working Progress')
+    
+    #Putting the target variables from dataset into easily readable variables and lists.
+    filename = '83429NED_UntypedDataSet_19032019_231356.csv'
+    partspaygrade = ['First 20%', 'Second 20%','Thirth 20%','Fourth 20%','Fifth 20%']
+    partspaygradecodes = ['1014752', '1014753', '1014754', '1014755', '1014756']
+    years = ['2012','2013','2014','2015','2016','2017','2018']
+    yearcodes = ['2012JJ00','2013JJ00','2014JJ00','2015JJ00','2016JJ00','2017JJ00','2018JJ00']
+    certain = 'MW00000'
+    research = 'BijnaElkeDag_13'
+    
+    #loading the correct file
+    data = loadData(filename)
+    
+    #creating subset for test
+    subset = data[(data['Marges'] == certain) & (data['KenmerkenPersonen'].isin(partspaygradecodes))]
+    
+    # Set all to 0
+    paygrade = []
+    for x in range(len(partspaygrade)):
+        yearresults = []
+        for y in range(len(yearcodes)):
+            yearresults.append(0)
+        paygrade.append(yearresults)
+    
+    # fill in all categories with their percentages    
+    for index, row in subset.iterrows():
+        if(row.loc['KenmerkenPersonen'] in partspaygradecodes):
+            indexkenmerk = partspaygradecodes.index(row.loc['KenmerkenPersonen'])
+            indexyear = yearcodes.index(row.loc['Perioden'])
+            paygrade[indexkenmerk][indexyear] = row.loc[research]
+    
+    print(paygrade)
+    
+    # Plotting the target values by generation. Including a legend and a label for clarity.
+    for i in range(len(paygrade)):
+        mp.plot(years, paygrade[i], label = partspaygrade[i])
+        mp.ylabel("Percentage of daily usage")
+        mp.legend()
+    mp.show()
     
 def genderDemo():
-    print("Work in progress!")
     
     #Putting the target variables from dataset into easily readable variables and lists.
     filename = '83429NED_UntypedDataSet_19032019_231356.csv'
     gendercodes = ['3000', '4000']
     categories = ['ToegangTotInternet_1','PersonalComputerPCOfDesktop_3','MobieleTelefoonOfSmartphone_6','Spelcomputer_7']
+    yearcodes = ['2012JJ00','2013JJ00','2014JJ00','2015JJ00','2016JJ00','2017JJ00','2018JJ00']
     certain = 'MW00000'
     
     #loading the correct file
     data = loadData(filename)
     
     #creating subset for test
-    subset = data[(data['Marges'] == certain) & (data['KenmerkenPersonen'].isin(gendercodes)) & (data['Perioden'] == '2018JJ00')]
+    subset = data[(data['Marges'] == certain) & (data['KenmerkenPersonen'].isin(gendercodes))]
     
+    #set every category for both genders to 0
     manresults = []
     womanresults = []
     for x in range(len(categories)):
         manresults.append(0)
         womanresults.append(0)
     
+    # Add up all percentages over all 7 years
     for index, category in enumerate(categories):
         for i, row in subset.iterrows():
             if (row.loc['KenmerkenPersonen'] == gendercodes[0]):
-                manresults[index] = row[category]
-            else:
-                womanresults[index] = row[category]
-                
+                manresults[index] += float(row[category])
+            elif (row.loc['KenmerkenPersonen'] == gendercodes[1]):
+                womanresults[index] += float(row[category])
+    
+    # Scale to mean per year      
+    years = len(yearcodes)      
+    for i in range(len(manresults)):
+        manresults[i] = manresults[i]/years
+        womanresults[i] = womanresults[i]/years
+    
     barwidth = 0.25  
     y_pos = np.arange(len(categories))
     y_pos2 = [x + barwidth for x in y_pos] 
