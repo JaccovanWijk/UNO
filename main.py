@@ -107,6 +107,8 @@ def genderDemo():
     #loading the correct file
     data = loadData(filename)
     
+    #SEP IS KONINGS
+    
     #creating subset for test
     subset = data[(data['Marges'] == certain) & (data['KenmerkenPersonen'].isin(gendercodes))]
     
