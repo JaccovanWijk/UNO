@@ -42,18 +42,16 @@ class InsertDataApp:
         self.Q3Button.pack()
         self.Q3Button.bind("<Button-1>", self.insertQ3)
 
+    # Set selected question to global variable
     def insertQ1(self, event):
-
         question.append("Q1")
         self.parent.destroy()
 
     def insertQ2(self, event):
-
         question.append("Q2")
         self.parent.destroy()
 
     def insertQ3(self, event):
-
         question.append("Q3")
         self.parent.destroy()
 
@@ -64,14 +62,17 @@ class LineApp:
         self.parent = parent
         self.years = ['2012','2013','2014','2015','2016','2017','2018']
 
+        # Make frame
         frame = tk.Frame(self.parent)
 
+        # Make a figure and insert the plot
         fig = Figure()
         ax = fig.add_subplot(111)
         for i in range(len(data)):
             ax.plot(self.years, data[i], label=labels[i])
         ax.legend()
-
+        
+        # Make a canvas in the frame and add figure
         self.canvas = FigureCanvasTkAgg(fig, master=parent)
         self.canvas.show()
         self.canvas.get_tk_widget().pack(side="top", fill="both", expand=1)
@@ -83,18 +84,20 @@ class BarApp:
     def __init__(self, parent, data, labels):
         self.parent = parent
         
+        # Make frame
         frame = tk.Frame(self.parent) 
         
+        # Make a figure and insert barplot
         fig = Figure()
         barwidth = 0.25
         y_pos = np.arange(len(labels))
         y_pos2 = [x + barwidth for x in y_pos]
-        
         ax = fig.add_subplot(111)
         ax.bar(y_pos, data[0], color="blue", width=barwidth, label="Men")
         ax.bar(y_pos2, data[1], color="red", width=barwidth, lablel="Women")
         ax.xticks(y_pos, labels)
         
+        # Make a canvas in the frame and add figure
         self.canvas = FigureCanvasTkAgg(fig, master=parent)
         self.canvas.show()
         self.canvas.get_tk_widget().pack(side="top", fill="both", expand=1)
@@ -245,6 +248,7 @@ question = []
 
 def main():
 
+    # Create first frame
     root1 = tk.Tk()
     InsertDataApp(root1)
     root1.lift()
@@ -254,23 +258,30 @@ def main():
     labels = []
 
     try:
+        # Check which question is selected
         if question[-1] == "Q1":
+            # Run selected question
             data, labels = ageDemo()
             
+            # Create frame to plot
             root2 = tk.Tk()
             LineApp(root2, data, labels)
             root2.lift()
             root2.mainloop()
         elif question[-1] == "Q2":
+            # Run selected question
             data, labels = societyDemo()
             
+            # Create frame to plot
             root2 = tk.Tk()
             LineApp(root2, data, labels)
             root2.lift()
             root2.mainloop()
         elif question[-1] == "Q3":
+            # Run selected question
             data, labels = genderDemo()
             
+            # Create frame to plot
             root2 = tk.Tk()
             BarApp(root2, data, labels)
             root2.lift()
