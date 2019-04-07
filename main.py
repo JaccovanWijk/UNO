@@ -6,8 +6,99 @@ Created on Tue Mar 19 19:22:52 2019
 """
 
 import pandas as pd
-import matplotlib.pyplot as mp
 import numpy as np
+import tkinter as tk
+
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.figure import Figure
+
+
+class InsertDataApp:
+
+    def __init__(self, parent):
+        self.parent = parent
+
+        # Make container
+        self.container = tk.Frame(self.parent)
+        self.container.pack()
+
+        # Set text and buttons for the questions
+        self.text = tk.Label(self.container, text=
+                             "Which question do you want to be answered?")
+        self.text.pack()
+
+        self.Q1Button = tk.Button(self.container, text=
+                                  "Comparing difference in age per year")
+        self.Q1Button.pack()
+        self.Q1Button.bind("<Button-1>", self.insertQ1)
+
+        self.Q2Button = tk.Button(self.container, text=
+                                  "Camparing parts of society")
+        self.Q2Button.pack()
+        self.Q2Button.bind("<Button-1>", self.insertQ2)
+
+        self.Q3Button = tk.Button(self.container, text=
+                                  "Comparing different genders")
+        self.Q3Button.pack()
+        self.Q3Button.bind("<Button-1>", self.insertQ3)
+
+    def insertQ1(self, event):
+
+        question.append("Q1")
+        self.parent.destroy()
+
+    def insertQ2(self, event):
+
+        question.append("Q2")
+        self.parent.destroy()
+
+    def insertQ3(self, event):
+
+        question.append("Q3")
+        self.parent.destroy()
+
+
+class LineApp:
+
+    def __init__(self, parent, data, labels):
+        self.parent = parent
+        self.years = ['2012','2013','2014','2015','2016','2017','2018']
+
+        frame = tk.Frame(self.parent)
+
+        fig = Figure()
+        ax = fig.add_subplot(111)
+        for i in range(len(data)):
+            ax.plot(self.years, data[i], label=labels[i])
+        ax.legend()
+
+        self.canvas = FigureCanvasTkAgg(fig, master=parent)
+        self.canvas.show()
+        self.canvas.get_tk_widget().pack(side="top", fill="both", expand=1)
+        frame.pack()
+        
+
+class BarApp:
+    
+    def __init__(self, parent, data, labels):
+        self.parent = parent
+        
+        frame = tk.Frame(self.parent) 
+        
+        fig = Figure()
+        barwidth = 0.25
+        y_pos = np.arange(len(labels))
+        y_pos2 = [x + barwidth for x in y_pos]
+        
+        ax = fig.add_subplot(111)
+        ax.bar(y_pos, data[0], color="blue", width=barwidth, label="Men")
+        ax.bar(y_pos2, data[1], color="red", width=barwidth, lablel="Women")
+        ax.xticks(y_pos, labels)
+        
+        self.canvas = FigureCanvasTkAgg(fig, master=parent)
+        self.canvas.show()
+        self.canvas.get_tk_widget().pack(side="top", fill="both", expand=1)
+        frame.pack()  
 
 # Quick function to load up a file correctly.
 def loadData(file):
@@ -47,12 +138,14 @@ def ageDemo():
             indexyear = yearcodes.index(row.loc['Perioden'])
             genresults[indexkenmerk][indexyear] = row.loc[research] 
     
-    # Plotting the target values by generation. Including a legend and a label for clarity.
-    for i in range(len(genresults)):
-        mp.plot(years, genresults[i], label = generations[i])
-        mp.ylabel("Percentage of daily usage")
-        mp.legend()
-    mp.show()
+#    # Plotting the target values by generation. Including a legend and a label for clarity.
+#    for i in range(len(genresults)):
+#        mp.plot(years, genresults[i], label = generations[i])
+#        mp.ylabel("Percentage of daily usage")
+#        mp.legend()
+#    mp.show()
+
+    return genresults, generations
 
 def societyDemo():
     
@@ -86,14 +179,14 @@ def societyDemo():
             indexyear = yearcodes.index(row.loc['Perioden'])
             paygrade[indexkenmerk][indexyear] = row.loc[research]
     
-    print(paygrade)
+#    # Plotting the target values by generation. Including a legend and a label for clarity.
+#    for i in range(len(paygrade)):
+#        mp.plot(years, paygrade[i], label = partspaygrade[i])
+#        mp.ylabel("Percentage of daily usage")
+#        mp.legend()
+#    mp.show()
     
-    # Plotting the target values by generation. Including a legend and a label for clarity.
-    for i in range(len(paygrade)):
-        mp.plot(years, paygrade[i], label = partspaygrade[i])
-        mp.ylabel("Percentage of daily usage")
-        mp.legend()
-    mp.show()
+    return paygrade, partspaygrade
     
 def genderDemo():
     
@@ -133,37 +226,61 @@ def genderDemo():
         manresults[i] = manresults[i]/years
         womanresults[i] = womanresults[i]/years
     
-    barwidth = 0.25  
-    y_pos = np.arange(len(categories))
-    y_pos2 = [x + barwidth for x in y_pos] 
-    mp.bar(y_pos, manresults, color="blue", width=barwidth)
-    mp.bar(y_pos2, womanresults, color="red", width=barwidth)
-    mp.xticks(y_pos, categories)
-    mp.ylabel('Availebility')
-    mp.title('Availebility per gender')
+#    barwidth = 0.25  
+#    y_pos = np.arange(len(categories))
+#    y_pos2 = [x + barwidth for x in y_pos] 
+#    mp.bar(y_pos, manresults, color="blue", width=barwidth)
+#    mp.bar(y_pos2, womanresults, color="red", width=barwidth)
+#    mp.xticks(y_pos, categories)
+#    mp.ylabel('Availebility')
+#    mp.title('Availebility per gender')
+#    
+#    mp.legend()
+#    mp.show()
     
-    mp.legend()
-    mp.show()
+    return [manresults, womanresults], categories
          
 
-# Creating a user-interface while-loop.
-while True:
-    print('Options: \n', '1: Show internet usage per generation \n', '2: Show part of society with the least internet growth \n', '3: Show difference in internet usage between men/women \n' , '4: Exit' )
+question = []
+
+def main():
+
+    root1 = tk.Tk()
+    InsertDataApp(root1)
+    root1.lift()
+    root1.mainloop()
     
-    #Try-Except to catch non-number inputs.
+    data = []
+    labels = []
+
     try:
-        option = int(input("What service would you like from us today (1-4)? : "))
-    except ValueError:
-        print("Enter a number")
-    # Calling necessary functions that are requested by user (Still in progress.)
-    if option == 1:
-        ageDemo()
-    elif option == 2:
-        societyDemo()
-    elif option == 3: 
-        genderDemo()
-    else:
-        break;    
+        if question[-1] == "Q1":
+            data, labels = ageDemo()
+            
+            root2 = tk.Tk()
+            LineApp(root2, data, labels)
+            root2.lift()
+            root2.mainloop()
+        elif question[-1] == "Q2":
+            data, labels = societyDemo()
+            
+            root2 = tk.Tk()
+            LineApp(root2, data, labels)
+            root2.lift()
+            root2.mainloop()
+        elif question[-1] == "Q3":
+            data, labels = genderDemo()
+            
+            root2 = tk.Tk()
+            BarApp(root2, data, labels)
+            root2.lift()
+            root2.mainloop()
+    except Exception:
+
+        print("Exception")
+
+if __name__ == "__main__":
+    main()  
     
     
     #Test Test Rob Test Test 
