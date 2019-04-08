@@ -20,33 +20,33 @@ class InsertDataApp:
 
         # Make container
         self.container = tk.Frame(self.parent)
-        self.container.pack()
+        self.container.pack(padx= 50, pady=50)
 
         # Set text and buttons for the questions
         self.text = tk.Label(self.container, text=
-                             "Which question do you want to be answered?")
+                             "Which question do you want to be answered?", fg='blue')
         self.text.pack()
 
         self.Q1Button = tk.Button(self.container, text=
-                                  "Daily usage in % per age age-group per year")
-        self.Q1Button.pack()
+                                  "Daily usage in % per age age-group per year" )
+        self.Q1Button.pack(pady = 5)
         self.Q1Button.bind("<Button-1>", self.insertQ1)
 
         self.Q2Button = tk.Button(self.container, text=
                                   "Comparing parts of society")
-        self.Q2Button.pack()
+        self.Q2Button.pack(pady = 5)
         self.Q2Button.bind("<Button-1>", self.insertQ2)
 
         self.Q3Button = tk.Button(self.container, text=
                                   "Comparing genders by monthly internet usage.")
-        self.Q3Button.pack()
+        self.Q3Button.pack(pady = 5)
         self.Q3Button.bind("<Button-1>", self.insertQ3)
 
     # Set selected question to global variable
     def insertQ1(self, event):
         question.append("Q1")
         self.parent.destroy()
-
+        
     def insertQ2(self, event):
         question.append("Q2")
         self.parent.destroy()
@@ -78,7 +78,7 @@ class CategoryChoiceApp:
         self.label.pack()
         
         self.container = tk.Frame(self.parent)
-        self.container.pack()
+        self.container.pack(padx=50, pady=50)
         
         self.Button1 = tk.Button(self.container, text=self.categorytitles[0])
         self.Button1.pack()
@@ -176,10 +176,10 @@ class CategoryCheckApp:
 
 class LineApp:
 
-    def __init__(self, parent, data, labels):
+    def __init__(self, parent, data, labels, title):
         self.parent = parent
         self.years = ['2012','2013','2014','2015','2016','2017','2018']
-
+        
         # Make frame
         frame = tk.Frame(self.parent, width=1000)
 
@@ -190,6 +190,7 @@ class LineApp:
             ax.plot(self.years, data[i], label=labels[i])
         ax.legend()
         ax.grid()
+        ax.set_title(title)
         
         # Make a canvas in the frame and add figure
         self.canvas = FigureCanvasTkAgg(fig, master=parent)
@@ -200,7 +201,7 @@ class LineApp:
 
 class BarApp:
     
-    def __init__(self, parent, data, titles):
+    def __init__(self, parent, data, titles, title):
         self.parent = parent
         
         # Make frame
@@ -219,7 +220,7 @@ class BarApp:
         ax.set_xticklabels(titles)
         ax.set_ylim([0,100])
         ax.grid()
-        
+        ax.set_title(title)
         
         # Make a canvas in the frame and add figure
         self.canvas = FigureCanvasTkAgg(fig, master=parent)
@@ -384,7 +385,8 @@ def main():
             
             # Create frame to plot
             root2 = tk.Tk()
-            LineApp(root2, data, labels)
+            title = 'Question one'
+            LineApp(root2, data, labels, title)
             root2.lift()
             root2.mainloop()
         elif question[-1] == "Q2":
@@ -402,7 +404,7 @@ def main():
             
             # Create frame to plot
             root3 = tk.Tk()
-            LineApp(root3, data, labels)
+            LineApp(root3, data, labels,title)
             root3.lift()
             root3.mainloop()
         elif question[-1] == "Q3":            
@@ -411,7 +413,7 @@ def main():
             app = CategoryCheckApp(root2)
             root2.lift()
             root2.mainloop()
-            
+            title = 'Internet usage per gender'
             # Ask for selected categories
             categories, titles = app.getCategories()
             
@@ -420,7 +422,7 @@ def main():
             
             # Create frame to plot
             root3 = tk.Tk()
-            BarApp(root3, data, titles)
+            BarApp(root3, data, titles, title)
             root3.lift()
             root3.mainloop()
             
