@@ -115,6 +115,18 @@ class CategoryChoiceApp:
         self.Button2.pack()
         self.Button2.bind("<Button-1>", self.useCategory2)
         
+        self.Button3 = tk.Button(self.container, text=self.categorytitles[2])
+        self.Button3.pack()
+        self.Button3.bind("<Button-1>", self.useCategory3)
+        
+        self.Button4 = tk.Button(self.container, text=self.categorytitles[3])
+        self.Button4.pack()
+        self.Button4.bind("<Button-1>", self.useCategory4)
+        
+        self.Button5 = tk.Button(self.container, text=self.categorytitles[4])
+        self.Button5.pack()
+        self.Button5.bind("<Button-1>", self.useCategory5)
+        
     def useCategory1(self, event):
         
         self.selectedCategory = self.allcategories[0]
@@ -126,6 +138,30 @@ class CategoryChoiceApp:
         
         self.selectedCategory = self.allcategories[1]
         self.selectedTitle = self.categorytitles[1]
+        
+        
+        self.parent.destroy()
+        
+    def useCategory3(self, event):
+        
+        self.selectedCategory = self.allcategories[2]
+        self.selectedTitle = self.categorytitles[2]
+        
+        
+        self.parent.destroy()
+        
+    def useCategory4(self, event):
+        
+        self.selectedCategory = self.allcategories[3]
+        self.selectedTitle = self.categorytitles[3]
+        
+        
+        self.parent.destroy()
+        
+    def useCategory5(self, event):
+        
+        self.selectedCategory = self.allcategories[4]
+        self.selectedTitle = self.categorytitles[4]
         
         
         self.parent.destroy()
@@ -201,6 +237,96 @@ class CategoryCheckApp:
         return self.selectedCategories, self.selectedTitles
 
 
+class SocietyChoiceApp:
+    
+    def __init__(self, parent):
+        self.parent = parent
+        
+        self.societyParts = [['1014752', '1014753', '1014754', '1014755', '1014756'], 
+                             ['1012600','2012605'], ['2018700', '2018740', '2018790'],
+                             ['3000795','3000805'], ['2021209','2021211','2021230','2021240']]
+        self.societyTitles = [['First 20%', 'Second 20%','Thirth 20%','Fourth 20%','Fifth 20%'],
+                              ['Imigration background', 'No imigration background'],
+                              ['vmbo', 'havo/vwo', 'hbo/wo'], ['unemployed','employed'],
+                              ['parttime','<20h','20-35h','Fulltime']]
+        self.globalTitles = ['Different Paygrades', 'Imigration Background', 
+                             'Educational Attainment', 'Employmend', 'Working Hours']
+        self.selectedParts = []
+        self.selectedTitles = []
+        self.selectedGlobal = ''
+        
+        self.label = tk.Label(text = "Choose what kind of societyparts you want to compare:")
+        self.label.pack()
+        
+        self.container = tk.Frame(self.parent)
+        self.container.pack()
+        
+        self.Button1 = tk.Button(text = self.globalTitles[0])
+        self.Button1.pack()
+        self.Button1.bind("<Button-1>", self.useSociety1)
+        
+        self.Button2 = tk.Button(text = self.globalTitles[1])
+        self.Button2.pack()
+        self.Button2.bind("<Button-1>", self.useSociety2)
+        
+        self.Button3 = tk.Button(text = self.globalTitles[2])
+        self.Button3.pack()
+        self.Button3.bind("<Button-1>", self.useSociety3)
+        
+        self.Button4 = tk.Button(text = self.globalTitles[3])
+        self.Button4.pack()
+        self.Button4.bind("<Button-1>", self.useSociety4)
+        
+        self.Button5 = tk.Button(text = self.globalTitles[4])
+        self.Button5.pack()
+        self.Button5.bind("<Button-1>", self.useSociety5)
+        
+        
+    def useSociety1(self, event):
+        
+        self.selectedParts = self.societyParts[0]
+        self.selectedTitles = self.societyTitles[0]
+        self.selectedGlobal = self.globalTitles[0]
+        
+        self.parent.destroy()
+        
+    def useSociety2(self, event):
+        
+        self.selectedParts = self.societyParts[1]
+        self.selectedTitles = self.societyTitles[1]
+        self.selectedGlobal = self.globalTitles[1]
+        
+        self.parent.destroy()
+        
+    def useSociety3(self, event):
+        
+        self.selectedParts = self.societyParts[2]
+        self.selectedTitles = self.societyTitles[2]
+        self.selectedGlobal = self.globalTitles[2]
+        
+        self.parent.destroy()
+        
+    def useSociety4(self, event):
+        
+        self.selectedParts = self.societyParts[3]
+        self.selectedTitles = self.societyTitles[3]
+        self.selectedGlobal = self.globalTitles[3]
+        
+        self.parent.destroy()
+        
+    def useSociety5(self, event):
+        
+        self.selectedParts = self.societyParts[4]
+        self.selectedTitles = self.societyTitles[4]
+        self.selectedGlobal = self.globalTitles[4]
+        
+        self.parent.destroy()
+        
+    def getSocietyPart(self):
+        
+        return self.selectedParts, self.selectedTitles, self.selectedGlobal
+    
+
 class LineApp:
 
     def __init__(self, parent, data, labels, title):
@@ -218,6 +344,7 @@ class LineApp:
         ax.legend()
         ax.grid()
         ax.set_title(title)
+        ax.set_ylim([0,100])
         
         # Make a canvas in the frame and add figure
         self.canvas = FigureCanvasTkAgg(fig, master=parent)
@@ -301,36 +428,38 @@ def ageDemo():
 
     return genresults, generations
 
-def societyDemo(research):
+def societyDemo(research, data):
     
     #Putting the target variables from dataset into easily readable variables and lists.
     filename = '83429NED_UntypedDataSet_19032019_231356.csv'
-    partspaygrade = ['First 20%', 'Second 20%','Thirth 20%','Fourth 20%','Fifth 20%']
-    partspaygradecodes = ['1014752', '1014753', '1014754', '1014755', '1014756']
+    #partspaygrade = ['First 20%', 'Second 20%','Thirth 20%','Fourth 20%','Fifth 20%']
+    #partspaygradecodes = ['1014752', '1014753', '1014754', '1014755', '1014756']
     yearcodes = ['2012JJ00','2013JJ00','2014JJ00','2015JJ00','2016JJ00','2017JJ00','2018JJ00']
     certain = 'MW00000'
     #research = 'BijnaElkeDag_13'
+    societyPartCodes = data[0]
+    societyParts = data[1]
     
     #loading the correct file
     data = loadData(filename)
     
     #creating subset for test
-    subset = data[(data['Marges'] == certain) & (data['KenmerkenPersonen'].isin(partspaygradecodes))]
+    subset = data[(data['Marges'] == certain) & (data['KenmerkenPersonen'].isin(societyPartCodes))]
     
     # Set all to 0
-    paygrade = []
-    for x in range(len(partspaygrade)):
+    data = []
+    for x in range(len(societyParts)):
         yearresults = []
         for y in range(len(yearcodes)):
             yearresults.append(0)
-        paygrade.append(yearresults)
+        data.append(yearresults)
     
     # fill in all categories with their percentages    
     for index, row in subset.iterrows():
-        if(row.loc['KenmerkenPersonen'] in partspaygradecodes):
-            indexkenmerk = partspaygradecodes.index(row.loc['KenmerkenPersonen'])
+        if(row.loc['KenmerkenPersonen'] in societyPartCodes):
+            indexkenmerk = societyPartCodes.index(row.loc['KenmerkenPersonen'])
             indexyear = yearcodes.index(row.loc['Perioden'])
-            paygrade[indexkenmerk][indexyear] = row.loc[research]
+            data[indexkenmerk][indexyear] = row.loc[research]
     
 #    # Plotting the target values by generation. Including a legend and a label for clarity.
 #    for i in range(len(paygrade)):
@@ -339,7 +468,7 @@ def societyDemo(research):
 #        mp.legend()
 #    mp.show()
     
-    return paygrade, partspaygrade
+    return data
     
 def genderDemo(categories):
     
@@ -419,19 +548,26 @@ def main():
         elif question[-1] == "Q2":
             # Create frame to select a category
             root2 = tk.Tk()
-            app = CategoryChoiceApp(root2)
+            app1 = CategoryChoiceApp(root2)
             root2.lift()
             root2.mainloop()
             
             # Ask for selected category
-            category, title = app.getCategory()
+            category, title = app1.getCategory()
+            
+            root4 = tk.Tk()
+            app2 = SocietyChoiceApp(root4)
+            root4.lift()
+            root4.mainloop()
+            
+            societyPart = app2.getSocietyPart()
             
             # Run selected question
-            data, labels = societyDemo(category)
+            data = societyDemo(category, societyPart)
             
             # Create frame to plot
             root3 = tk.Tk()
-            LineApp(root3, data, labels,title)
+            LineApp(root3, data, societyPart[1], societyPart[2])
             root3.lift()
             root3.mainloop()
         elif question[-1] == "Q3":            
