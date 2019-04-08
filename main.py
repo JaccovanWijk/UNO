@@ -286,9 +286,9 @@ def main():
             BarApp(root2, data, labels)
             root2.lift()
             root2.mainloop()
-    except Exception:
-
-        print("Exception")
-
+    except Exception as ex:
+        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
+        message = template.format(type(ex).__name__, ex.args)
+        print (message)
 if __name__ == "__main__":
     main()  
