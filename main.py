@@ -74,7 +74,7 @@ class LineApp:
         
         # Make a canvas in the frame and add figure
         self.canvas = FigureCanvasTkAgg(fig, master=parent)
-        self.canvas.show()
+        self.canvas.draw()
         self.canvas.get_tk_widget().pack(side="top", fill="both", expand=1)
         frame.pack()
         
@@ -99,7 +99,7 @@ class BarApp:
         
         # Make a canvas in the frame and add figure
         self.canvas = FigureCanvasTkAgg(fig, master=parent)
-        self.canvas.show()
+        self.canvas.draw()
         self.canvas.get_tk_widget().pack(side="top", fill="both", expand=1)
         frame.pack()  
 
@@ -289,6 +289,8 @@ def main():
     except Exception as ex:
         template = "An exception of type {0} occurred. Arguments:\n{1!r}"
         message = template.format(type(ex).__name__, ex.args)
-        print (message)
+        print (f"An exception of type {type(ex).__name__} occurred. Arguments:" +
+                                       "\n {ex.args}")
+
 if __name__ == "__main__":
-    main()  
+   main()  
