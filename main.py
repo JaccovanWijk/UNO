@@ -17,15 +17,14 @@ class InsertDataApp:
 
     def __init__(self, parent):
         self.parent = parent
-
+        # Set text and buttons for the questions
+        self.text = tk.Label(text= "Which question do you want to be answered?", fg='blue')
+        self.text.pack()
         # Make container
         self.container = tk.Frame(self.parent)
         self.container.pack(padx= 50, pady=50)
 
-        # Set text and buttons for the questions
-        self.text = tk.Label(self.container, text=
-                             "Which question do you want to be answered?", fg='blue')
-        self.text.pack()
+        
 
         self.Q1Button = tk.Button(self.container, text=
                                   "Daily usage in % per age age-group per year" )
@@ -80,7 +79,7 @@ class CategoryChoiceApp:
         self.label.pack()
         
         self.container = tk.Frame(self.parent)
-        self.container.pack(padx=50, pady=50)
+        self.container.pack(padx=20, pady=20)
         
         self.Button1 = tk.Button(self.container, text=self.categorytitles[0])
         self.Button1.pack(pady = 1,fill='x')
@@ -169,7 +168,7 @@ class CategoryCheckApp:
         
         # Make container
         self.container = tk.Frame(self.parent)
-        self.container.pack(padx=50, pady=50)
+        self.container.pack(padx=20, pady=20)
 
         self.var1 = tk.IntVar()
         checkButton1 = tk.Checkbutton(self.container, text=self.categorytitles[0], variable=self.var1)
@@ -230,29 +229,31 @@ class SocietyChoiceApp:
         self.selectedTitles = []
         self.selectedGlobal = ''
         
-        self.label = tk.Label(text = "Choose the parts of society to compare:")
+        self.label = tk.Label( text = "Choose the parts of society to compare:")
         self.label.pack()
         
-        self.container = tk.Frame(self.parent)
-        self.container.pack(padx=50, pady=50)
         
-        self.Button1 = tk.Button(text = self.globalTitles[0])
-        self.Button1.pack(pady = 1,fill='x')
+        self.container = tk.Frame(self.parent, width=300, height = 200)
+        self.container.pack(padx=20, pady = 20)
+        
+        
+        self.Button1 = tk.Button(self.container, text = self.globalTitles[0])
+        self.Button1.pack(pady = 1,  fill='x')
         self.Button1.bind("<Button-1>", self.useSociety1)
         
-        self.Button2 = tk.Button(text = self.globalTitles[1])
+        self.Button2 = tk.Button(self.container, text = self.globalTitles[1])
         self.Button2.pack(pady = 1,fill='x')
         self.Button2.bind("<Button-1>", self.useSociety2)
         
-        self.Button3 = tk.Button(text = self.globalTitles[2])
+        self.Button3 = tk.Button(self.container, text = self.globalTitles[2])
         self.Button3.pack(pady = 1,fill='x')
         self.Button3.bind("<Button-1>", self.useSociety3)
         
-        self.Button4 = tk.Button(text = self.globalTitles[3])
+        self.Button4 = tk.Button(self.container, text = self.globalTitles[3])
         self.Button4.pack(pady = 1,fill='x')
         self.Button4.bind("<Button-1>", self.useSociety4)
         
-        self.Button5 = tk.Button(text = self.globalTitles[4])
+        self.Button5 = tk.Button(self.container, text = self.globalTitles[4])
         self.Button5.pack(pady = 1,fill='x')
         self.Button5.bind("<Button-1>", self.useSociety5)
         
