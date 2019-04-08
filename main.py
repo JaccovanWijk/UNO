@@ -94,7 +94,7 @@ class BarApp:
         y_pos2 = [x + barwidth for x in y_pos]
         ax = fig.add_subplot(111)
         ax.bar(y_pos, data[0], color="blue", width=barwidth, label="Men")
-        ax.bar(y_pos2, data[1], color="red", width=barwidth, lablel="Women")
+        ax.bar(y_pos2, data[1], color="red", width=barwidth, label="Women")
         ax.xticks(y_pos, labels)
         
         # Make a canvas in the frame and add figure
@@ -292,7 +292,3 @@ def main():
 
 if __name__ == "__main__":
     main()  
-    
-    
-    #Test Test Rob Test Test 
-    # THIS IS A TEST YOU FUCKHEAD
