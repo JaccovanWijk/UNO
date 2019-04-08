@@ -28,7 +28,7 @@ class InsertDataApp:
         self.text.pack()
 
         self.Q1Button = tk.Button(self.container, text=
-                                  "Comparing difference in age per year")
+                                  "Daily usage in % per age age-group per year")
         self.Q1Button.pack()
         self.Q1Button.bind("<Button-1>", self.insertQ1)
 
@@ -56,7 +56,59 @@ class InsertDataApp:
         self.parent.destroy()
 
 
-class ChoiceApp:
+class CategoryChoiceApp:
+    
+    def __init__(self, parent):
+        self.parent = parent
+        
+        self.allcategories = ['PersonalComputerPCOfDesktop_3',
+                              'MobieleTelefoonOfSmartphone_6','Spelcomputer_7',
+                              'SpelletjesMuziekAfSpelenDownloaden_44',
+                              'SociaalNetwerk_31']
+        
+        self.categorytitles = ['Using Internet on a Personal Computer',
+                               'Using internet on a Smartphone',
+                               'Using internet on a Gaming System',
+                               'Using internet to play and download music and/or games',
+                               'Using internet for Social Media']
+        self.selectedCategory = ""
+        self.selectedTitle = ""
+        
+        self.label = tk.Label(text = "Choose a category you'd like to use:")
+        self.label.pack()
+        
+        self.container = tk.Frame(self.parent)
+        self.container.pack()
+        
+        self.Button1 = tk.Button(self.container, text=self.categorytitles[0])
+        self.Button1.pack()
+        self.Button1.bind("<Button-1>", self.useCategory1)
+        
+        self.Button2 = tk.Button(self.container, text=self.categorytitles[1])
+        self.Button2.pack()
+        self.Button2.bind("<Button-1>", self.useCategory2)
+        
+    def useCategory1(self, event):
+        
+        self.selectedCategory = self.allcategories[0]
+        self.selectedTitle = self.categorytitles[0]
+        
+        self.parent.destroy()
+        
+    def useCategory2(self, event):
+        
+        self.selectedCategory = self.allcategories[1]
+        self.selectedTitle = self.categorytitles[1]
+        
+        
+        self.parent.destroy()
+        
+    def getCategory(self):
+        
+        return self.selectedCategory, self.selectedTitle
+        
+
+class CategoryCheckApp:
     
     def __init__(self, parent):
         self.parent = parent
@@ -73,6 +125,7 @@ class ChoiceApp:
                                'Using internet for Social Media']
         self.selectedCategories = []
         self.selectedTitles = []
+        
         self.label = tk.Label(text = "Choose categories you'd like to compare:")
         self.label.pack()
         
@@ -220,7 +273,7 @@ def ageDemo():
 
     return genresults, generations
 
-def societyDemo():
+def societyDemo(research):
     
     #Putting the target variables from dataset into easily readable variables and lists.
     filename = '83429NED_UntypedDataSet_19032019_231356.csv'
@@ -228,7 +281,7 @@ def societyDemo():
     partspaygradecodes = ['1014752', '1014753', '1014754', '1014755', '1014756']
     yearcodes = ['2012JJ00','2013JJ00','2014JJ00','2015JJ00','2016JJ00','2017JJ00','2018JJ00']
     certain = 'MW00000'
-    research = 'BijnaElkeDag_13'
+    #research = 'BijnaElkeDag_13'
     
     #loading the correct file
     data = loadData(filename)
@@ -335,8 +388,17 @@ def main():
             root2.lift()
             root2.mainloop()
         elif question[-1] == "Q2":
+            # Create frame to select a category
+            root2 = tk.Tk()
+            app = CategoryChoiceApp(root2)
+            root2.lift()
+            root2.mainloop()
+            
+            # Ask for selected category
+            category, title = app.getCategory()
+            
             # Run selected question
-            data, labels = societyDemo()
+            data, labels = societyDemo(category)
             
             # Create frame to plot
             root3 = tk.Tk()
@@ -346,7 +408,7 @@ def main():
         elif question[-1] == "Q3":            
             # Create frame to select categories
             root2 = tk.Tk()
-            app = ChoiceApp(root2)
+            app = CategoryCheckApp(root2)
             root2.lift()
             root2.mainloop()
             
