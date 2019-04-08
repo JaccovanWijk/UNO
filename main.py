@@ -2,7 +2,7 @@
 """
 Created on Tue Mar 19 19:22:52 2019
 
-@author: sepke
+@author: UNO
 """
 
 import pandas as pd
@@ -227,7 +227,7 @@ class SocietyChoiceApp:
                              'Educational Attainment', 'Employmend', 'Working Hours']
         self.selectedParts = []
         self.selectedTitles = []
-        self.selectedGlobal = ''
+        #self.selectedGlobal = ''
         
         self.label = tk.Label( text = "Choose the parts of society to compare:")
         self.label.pack()
@@ -262,7 +262,7 @@ class SocietyChoiceApp:
         
         self.selectedParts = self.societyParts[0]
         self.selectedTitles = self.societyTitles[0]
-        self.selectedGlobal = self.globalTitles[0]
+        #self.selectedGlobal = self.globalTitles[0]
         
         self.parent.destroy()
         
@@ -270,7 +270,7 @@ class SocietyChoiceApp:
         
         self.selectedParts = self.societyParts[1]
         self.selectedTitles = self.societyTitles[1]
-        self.selectedGlobal = self.globalTitles[1]
+        #self.selectedGlobal = self.globalTitles[1]
         
         self.parent.destroy()
         
@@ -278,7 +278,7 @@ class SocietyChoiceApp:
         
         self.selectedParts = self.societyParts[2]
         self.selectedTitles = self.societyTitles[2]
-        self.selectedGlobal = self.globalTitles[2]
+        #self.selectedGlobal = self.globalTitles[2]
         
         self.parent.destroy()
         
@@ -286,7 +286,7 @@ class SocietyChoiceApp:
         
         self.selectedParts = self.societyParts[3]
         self.selectedTitles = self.societyTitles[3]
-        self.selectedGlobal = self.globalTitles[3]
+        #self.selectedGlobal = self.globalTitles[3]
         
         self.parent.destroy()
         
@@ -294,13 +294,13 @@ class SocietyChoiceApp:
         
         self.selectedParts = self.societyParts[4]
         self.selectedTitles = self.societyTitles[4]
-        self.selectedGlobal = self.globalTitles[4]
+        #self.selectedGlobal = self.globalTitles[4]
         
         self.parent.destroy()
         
     def getSocietyPart(self):
         
-        return self.selectedParts, self.selectedTitles, self.selectedGlobal
+        return self.selectedParts, self.selectedTitles#, self.selectedGlobal
     
 
 class LineApp:
@@ -310,14 +310,14 @@ class LineApp:
         self.years = ['2012','2013','2014','2015','2016','2017','2018']
         
         # Make frame
-        frame = tk.Frame(self.parent, width=1000)
+        frame = tk.Frame(self.parent)
 
         # Make a figure and insert the plot
         fig = Figure()
         ax = fig.add_subplot(111)
         for i in range(len(data)):
             ax.plot(self.years, data[i], label=labels[i])
-        ax.legend()
+        ax.legend(loc="upper right")
         ax.grid()
         ax.set_title(title)
         ax.set_ylim([0,100])
@@ -335,7 +335,7 @@ class BarApp:
         self.parent = parent
         
         # Make frame
-        frame = tk.Canvas(self.parent, width=1000) 
+        frame = tk.Frame(self.parent) 
         
         # Make a figure and insert barplot
         fig = Figure()
@@ -345,7 +345,7 @@ class BarApp:
         ax = fig.add_subplot(111)
         ax.bar(y_pos, data[0], color="blue", width=barwidth, label="Men")
         ax.bar(y_pos2, data[1], color="red", width=barwidth, label="Women")
-        ax.legend()
+        ax.legend(loc="upper right")
         ax.set_xticks(y_pos + barwidth / 2)
         ax.set_xticklabels(titles)
         ax.set_ylim([0,100])
@@ -366,14 +366,14 @@ def loadData(file):
     return df
 
 # Function that will plot the demo.
-def ageDemo():
+def ageDemo(research):
     #Putting the target variables from dataset into easily readable variables and lists.
     filename = '83429NED_UntypedDataSet_19032019_231356.csv'
-    generations= ['12-18', '18-25', '25-35','35-45', '45-55', '55-65', '65-75', '75+']
     gencodes = ['52020', '53105', '53500', '53700', '53800', '53900', '53925', '21600']
+    generations = ['12-18', '18-25', '25-35', '35-45', '45-55', '55-65', '65-75', '75+']
     yearcodes = ['2012JJ00','2013JJ00','2014JJ00','2015JJ00','2016JJ00','2017JJ00','2018JJ00']
     certain = 'MW00000'
-    research = 'BijnaElkeDag_13'
+    #research = 'BijnaElkeDag_13'
     #loading the correct file
     data = loadData(filename)
     
@@ -401,6 +401,11 @@ def ageDemo():
 #        mp.ylabel("Percentage of daily usage")
 #        mp.legend()
 #    mp.show()
+
+    for i in range(len(genresults)):
+        for j in range(len(genresults[i])):
+            if genresults[i][j] == '.':
+                genresults[i][j] = '0'
 
     return genresults, generations
 
@@ -512,15 +517,22 @@ def main():
     try:
         # Check which question is selected
         if question[-1] == "Q1":
-            # Run selected question
-            data, labels = ageDemo()
             
-            # Create frame to plot
             root2 = tk.Tk()
-            title = 'Question one'
-            LineApp(root2, data, labels, title)
+            app = CategoryChoiceApp(root2)
             root2.lift()
             root2.mainloop()
+            
+            category, title = app.getCategory()
+            
+            # Run selected question
+            data, labels = ageDemo(category)
+            
+            # Create frame to plot
+            root3 = tk.Tk()
+            LineApp(root3, data, labels, title)
+            root3.lift()
+            root3.mainloop()
         elif question[-1] == "Q2":
             # Create frame to select a category
             root2 = tk.Tk()
@@ -543,7 +555,7 @@ def main():
             
             # Create frame to plot
             root3 = tk.Tk()
-            LineApp(root3, data, societyPart[1], societyPart[2])
+            LineApp(root3, data, societyPart[1], title)
             root3.lift()
             root3.mainloop()
         elif question[-1] == "Q3":            
