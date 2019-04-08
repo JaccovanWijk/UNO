@@ -33,7 +33,7 @@ class InsertDataApp:
         self.Q1Button.bind("<Button-1>", self.insertQ1)
 
         self.Q2Button = tk.Button(self.container, text=
-                                  "Camparing parts of society")
+                                  "Comparing parts of society")
         self.Q2Button.pack()
         self.Q2Button.bind("<Button-1>", self.insertQ2)
 
@@ -121,6 +121,7 @@ class LineApp:
         for i in range(len(data)):
             ax.plot(self.years, data[i], label=labels[i])
         ax.legend()
+        ax.grid()
         
         # Make a canvas in the frame and add figure
         self.canvas = FigureCanvasTkAgg(fig, master=parent)
@@ -148,6 +149,9 @@ class BarApp:
         ax.legend()
         ax.set_xticks(y_pos + barwidth / 2)
         ax.set_xticklabels(labels)
+        ax.set_ylim([0,100])
+        ax.grid()
+        
         
         # Make a canvas in the frame and add figure
         self.canvas = FigureCanvasTkAgg(fig, master=parent)
