@@ -95,7 +95,7 @@ class BarApp:
         ax = fig.add_subplot(111)
         ax.bar(y_pos, data[0], color="blue", width=barwidth, label="Men")
         ax.bar(y_pos2, data[1], color="red", width=barwidth, label="Women")
-        ax.xticks(y_pos, labels)
+        ax.legend()
         
         # Make a canvas in the frame and add figure
         self.canvas = FigureCanvasTkAgg(fig, master=parent)
@@ -286,11 +286,11 @@ def main():
             BarApp(root2, data, labels)
             root2.lift()
             root2.mainloop()
+            
     except Exception as ex:
-        template = "An exception of type {0} occurred. Arguments:\n{1!r}"
-        message = template.format(type(ex).__name__, ex.args)
+        arguments = ex.args
         print (f"An exception of type {type(ex).__name__} occurred. Arguments:" +
-                                       "\n {ex.args}")
+                                       f"\n {arguments}")
 
 if __name__ == "__main__":
    main()  
