@@ -56,6 +56,56 @@ class InsertDataApp:
         self.parent.destroy()
 
 
+class ChoiceApp:
+    
+    def __init__(self, parent):
+        self.parent = parent
+        
+        self.allcategories = ['PersonalComputerPCOfDesktop_3',
+                              'MobieleTelefoonOfSmartphone_6','Spelcomputer_7',
+                              'MobieleTelefoonOfSmartPhone_22']
+        self.selectedCategories = []
+        
+        # Make container
+        self.container = tk.Frame(self.parent)
+        self.container.pack()
+
+        self.var1 = tk.IntVar()
+        checkButton1 = tk.Checkbutton(self.container, text=self.allcategories[0], variable=self.var1)
+        checkButton1.pack()
+        
+        self.var2 = tk.IntVar()
+        checkButton2 = tk.Checkbutton(self.container, text=self.allcategories[1], variable=self.var2)
+        checkButton2.pack()
+        
+        self.var3 = tk.IntVar()
+        checkButton3 = tk.Checkbutton(self.container, text=self.allcategories[2], variable=self.var3)
+        checkButton3.pack()
+        
+        self.var4 = tk.IntVar()
+        checkButton4 = tk.Checkbutton(self.container, text=self.allcategories[3], variable=self.var4)
+        checkButton4.pack()
+        
+        self.vars = [self.var1, self.var2, self.var3, self.var4]
+        
+        nextButton = tk.Button(self.container, text="Next")
+        nextButton.pack()
+        nextButton.bind("<Button-1>", self.nextPage)
+        
+    def nextPage(self, event):
+        
+        for i in range(len(self.vars)):
+            if self.vars[i].get() == 1:
+                self.selectedCategories.append(self.allcategories[i])
+        
+        print(self.selectedCategories)
+        self.parent.destroy()
+        
+    def getCategories(self):
+        
+        return self.selectedCategories
+
+
 class LineApp:
 
     def __init__(self, parent, data, labels):
@@ -63,7 +113,7 @@ class LineApp:
         self.years = ['2012','2013','2014','2015','2016','2017','2018']
 
         # Make frame
-        frame = tk.Frame(self.parent)
+        frame = tk.Frame(self.parent, width=1000)
 
         # Make a figure and insert the plot
         fig = Figure()
@@ -85,7 +135,7 @@ class BarApp:
         self.parent = parent
         
         # Make frame
-        frame = tk.Frame(self.parent) 
+        frame = tk.Canvas(self.parent, width=1000) 
         
         # Make a figure and insert barplot
         fig = Figure()
@@ -96,6 +146,8 @@ class BarApp:
         ax.bar(y_pos, data[0], color="blue", width=barwidth, label="Men")
         ax.bar(y_pos2, data[1], color="red", width=barwidth, label="Women")
         ax.legend()
+        ax.set_xticks(y_pos + barwidth / 2)
+        ax.set_xticklabels(labels)
         
         # Make a canvas in the frame and add figure
         self.canvas = FigureCanvasTkAgg(fig, master=parent)
@@ -191,12 +243,12 @@ def societyDemo():
     
     return paygrade, partspaygrade
     
-def genderDemo():
+def genderDemo(categories):
     
     #Putting the target variables from dataset into easily readable variables and lists.
     filename = '83429NED_UntypedDataSet_19032019_231356.csv'
     gendercodes = ['3000', '4000']
-    categories = ['ToegangTotInternet_1','PersonalComputerPCOfDesktop_3','MobieleTelefoonOfSmartphone_6','Spelcomputer_7']
+    #categories = ['PersonalComputerPCOfDesktop_3','MobieleTelefoonOfSmartphone_6','Spelcomputer_7','MobieleTelefoonOfSmartPhone_22']
     yearcodes = ['2012JJ00','2013JJ00','2014JJ00','2015JJ00','2016JJ00','2017JJ00','2018JJ00']
     certain = 'MW00000'
     
@@ -273,19 +325,28 @@ def main():
             data, labels = societyDemo()
             
             # Create frame to plot
+            root3 = tk.Tk()
+            LineApp(root3, data, labels)
+            root3.lift()
+            root3.mainloop()
+        elif question[-1] == "Q3":            
+            # Create frame to select categories
             root2 = tk.Tk()
-            LineApp(root2, data, labels)
+            app = ChoiceApp(root2)
             root2.lift()
             root2.mainloop()
-        elif question[-1] == "Q3":
+            
+            # Ask for selected categories
+            categories = app.getCategories()
+            
             # Run selected question
-            data, labels = genderDemo()
+            data, labels = genderDemo(categories)
             
             # Create frame to plot
-            root2 = tk.Tk()
-            BarApp(root2, data, labels)
-            root2.lift()
-            root2.mainloop()
+            root3 = tk.Tk()
+            BarApp(root3, data, categories)
+            root3.lift()
+            root3.mainloop()
             
     except Exception as ex:
         arguments = ex.args
