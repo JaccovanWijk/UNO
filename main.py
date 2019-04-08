@@ -56,6 +56,33 @@ class InsertDataApp:
         self.parent.destroy()
 
 
+class SocietyChoiceApp:
+    
+    def __init__(self, parent):
+        self.parent = parent
+        
+        self.societyParts = []
+        self.societyTitles = []
+        self.selectedPart = ""
+        self.selectedTitle = ""
+        
+        self.label = tk.Label(text = "Choose what kind of societyparts you want to compare:")
+        self.label.pack()
+        
+        self.container = tk.Frame(self.parent)
+        self.container.pack()
+        
+        self.Button1 = tk.Button(text = self.societyParts[0])
+        self.Button1.pack()
+        self.Button1.bind("<Button-1>", self.useSociety1)
+        
+        
+    def useSociety1(self, event):
+        
+        self.selectedPart = self.societyParts[0]
+        self.parent.destroy()
+        
+
 class CategoryChoiceApp:
     
     def __init__(self, parent):
