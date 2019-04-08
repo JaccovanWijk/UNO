@@ -29,17 +29,17 @@ class InsertDataApp:
 
         self.Q1Button = tk.Button(self.container, text=
                                   "Daily usage in % per age age-group per year" )
-        self.Q1Button.pack(pady = 5)
+        self.Q1Button.pack(pady = 1, fill='x')
         self.Q1Button.bind("<Button-1>", self.insertQ1)
 
         self.Q2Button = tk.Button(self.container, text=
                                   "Comparing parts of society")
-        self.Q2Button.pack(pady = 5)
+        self.Q2Button.pack(pady = 1, fill='x')
         self.Q2Button.bind("<Button-1>", self.insertQ2)
 
         self.Q3Button = tk.Button(self.container, text=
                                   "Comparing genders by monthly internet usage.")
-        self.Q3Button.pack(pady = 5)
+        self.Q3Button.pack(pady = 1, fill='x')
         self.Q3Button.bind("<Button-1>", self.insertQ3)
 
     # Set selected question to global variable
@@ -56,32 +56,7 @@ class InsertDataApp:
         self.parent.destroy()
 
 
-class SocietyChoiceApp:
-    
-    def __init__(self, parent):
-        self.parent = parent
-        
-        self.societyParts = []
-        self.societyTitles = []
-        self.selectedPart = ""
-        self.selectedTitle = ""
-        
-        self.label = tk.Label(text = "Choose what kind of societyparts you want to compare:")
-        self.label.pack()
-        
-        self.container = tk.Frame(self.parent)
-        self.container.pack()
-        
-        self.Button1 = tk.Button(text = self.societyParts[0])
-        self.Button1.pack()
-        self.Button1.bind("<Button-1>", self.useSociety1)
-        
-        
-    def useSociety1(self, event):
-        
-        self.selectedPart = self.societyParts[0]
-        self.parent.destroy()
-        
+
 
 class CategoryChoiceApp:
     
@@ -101,30 +76,30 @@ class CategoryChoiceApp:
         self.selectedCategory = ""
         self.selectedTitle = ""
         
-        self.label = tk.Label(text = "Choose a category you'd like to use:")
+        self.label = tk.Label(text = "Choose a category")
         self.label.pack()
         
         self.container = tk.Frame(self.parent)
         self.container.pack(padx=50, pady=50)
         
         self.Button1 = tk.Button(self.container, text=self.categorytitles[0])
-        self.Button1.pack()
+        self.Button1.pack(pady = 1,fill='x')
         self.Button1.bind("<Button-1>", self.useCategory1)
         
         self.Button2 = tk.Button(self.container, text=self.categorytitles[1])
-        self.Button2.pack()
+        self.Button2.pack(pady = 1,fill='x')
         self.Button2.bind("<Button-1>", self.useCategory2)
         
         self.Button3 = tk.Button(self.container, text=self.categorytitles[2])
-        self.Button3.pack()
+        self.Button3.pack(pady = 1,fill='x')
         self.Button3.bind("<Button-1>", self.useCategory3)
         
         self.Button4 = tk.Button(self.container, text=self.categorytitles[3])
-        self.Button4.pack()
+        self.Button4.pack(pady = 1,fill='x')
         self.Button4.bind("<Button-1>", self.useCategory4)
         
         self.Button5 = tk.Button(self.container, text=self.categorytitles[4])
-        self.Button5.pack()
+        self.Button5.pack(pady = 1,fill='x')
         self.Button5.bind("<Button-1>", self.useCategory5)
         
     def useCategory1(self, event):
@@ -189,12 +164,12 @@ class CategoryCheckApp:
         self.selectedCategories = []
         self.selectedTitles = []
         
-        self.label = tk.Label(text = "Choose categories you'd like to compare:")
+        self.label = tk.Label(text = "Choose the categories to compare:")
         self.label.pack()
         
         # Make container
         self.container = tk.Frame(self.parent)
-        self.container.pack()
+        self.container.pack(padx=50, pady=50)
 
         self.var1 = tk.IntVar()
         checkButton1 = tk.Checkbutton(self.container, text=self.categorytitles[0], variable=self.var1)
@@ -255,30 +230,30 @@ class SocietyChoiceApp:
         self.selectedTitles = []
         self.selectedGlobal = ''
         
-        self.label = tk.Label(text = "Choose what kind of societyparts you want to compare:")
+        self.label = tk.Label(text = "Choose the parts of society to compare:")
         self.label.pack()
         
         self.container = tk.Frame(self.parent)
-        self.container.pack()
+        self.container.pack(padx=50, pady=50)
         
         self.Button1 = tk.Button(text = self.globalTitles[0])
-        self.Button1.pack()
+        self.Button1.pack(pady = 1,fill='x')
         self.Button1.bind("<Button-1>", self.useSociety1)
         
         self.Button2 = tk.Button(text = self.globalTitles[1])
-        self.Button2.pack()
+        self.Button2.pack(pady = 1,fill='x')
         self.Button2.bind("<Button-1>", self.useSociety2)
         
         self.Button3 = tk.Button(text = self.globalTitles[2])
-        self.Button3.pack()
+        self.Button3.pack(pady = 1,fill='x')
         self.Button3.bind("<Button-1>", self.useSociety3)
         
         self.Button4 = tk.Button(text = self.globalTitles[3])
-        self.Button4.pack()
+        self.Button4.pack(pady = 1,fill='x')
         self.Button4.bind("<Button-1>", self.useSociety4)
         
         self.Button5 = tk.Button(text = self.globalTitles[4])
-        self.Button5.pack()
+        self.Button5.pack(pady = 1,fill='x')
         self.Button5.bind("<Button-1>", self.useSociety5)
         
         
