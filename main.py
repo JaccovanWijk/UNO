@@ -6,510 +6,15 @@ Created on Tue Mar 19 19:22:52 2019
 """
 
 import pandas as pd
-import numpy as np
 import tkinter as tk
 import sys
 
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
-from matplotlib.figure import Figure
-
-
-class QuestionApp:
-
-    def __init__(self, parent):
-        self.parent = parent
-        self.exit = False
-        
-        # Set text and buttons for the questions
-        self.text = tk.Label(text= "Which question do you want to be answered?", fg='blue')
-        self.text.pack()
-        # Make container
-        self.container = tk.Frame(self.parent)
-        self.container.pack(padx= 50, pady=50)
-
-        # Initialize all buttons
-        self.Q1Button = tk.Button(self.container, text=
-                                  "Daily usage in % per age age-group per year" )
-        self.Q1Button.pack(pady = 1, fill='x')
-        self.Q1Button.bind("<Button-1>", self.insertQ1)
-
-        self.Q2Button = tk.Button(self.container, text=
-                                  "Comparing parts of society")
-        self.Q2Button.pack(pady = 1, fill='x')
-        self.Q2Button.bind("<Button-1>", self.insertQ2)
-
-        self.Q3Button = tk.Button(self.container, text=
-                                  "Comparing genders by monthly internet usage.")
-        self.Q3Button.pack(pady = 1, fill='x')
-        self.Q3Button.bind("<Button-1>", self.insertQ3)
-        
-        self.ExitButton = tk.Button(self.container, text="Exit", fg="red")
-        self.ExitButton.pack(pady=1)
-        self.ExitButton.bind("<Button-1>", self.exitWindow)
-
-    # Set selected question to global variable
-    def insertQ1(self, event):
-        question.append("Q1")
-        self.parent.destroy()
-        
-    def insertQ2(self, event):
-        question.append("Q2")
-        self.parent.destroy()
-
-    def insertQ3(self, event):
-        question.append("Q3")
-        self.parent.destroy()
-        
-    def exitWindow(self, event):
-        
-        self.exit = True
-        
-        self.parent.destroy()
-    
-    def getExit(self):
-        
-        return self.exit
-
-
-class CategoryChoiceApp:
-    
-    def __init__(self, parent):
-        self.parent = parent
-        self.returnHome = False
-        self.exit = False
-        
-        self.allcategories = ['PersonalComputerPCOfDesktop_3',
-                              'MobieleTelefoonOfSmartphone_6','Spelcomputer_7',
-                              'SpelletjesMuziekAfSpelenDownloaden_44',
-                              'SociaalNetwerk_31']
-        
-        self.categorytitles = ['Using Internet on a Personal Computer',
-                               'Using internet on a Smartphone',
-                               'Using internet on a Gaming System',
-                               'Using internet to play and download music and/or games',
-                               'Using internet for Social Media']
-        self.selectedCategory = ""
-        self.selectedTitle = ""
-        
-        self.label = tk.Label(text = "Choose a category")
-        self.label.pack()
-        
-        self.container = tk.Frame(self.parent)
-        self.container.pack(padx=20, pady=20)
-        
-        self.Button1 = tk.Button(self.container, text=self.categorytitles[0])
-        self.Button1.pack(pady = 1,fill='x')
-        self.Button1.bind("<Button-1>", self.useCategory1)
-        
-        self.Button2 = tk.Button(self.container, text=self.categorytitles[1])
-        self.Button2.pack(pady = 1,fill='x')
-        self.Button2.bind("<Button-1>", self.useCategory2)
-        
-        self.Button3 = tk.Button(self.container, text=self.categorytitles[2])
-        self.Button3.pack(pady = 1,fill='x')
-        self.Button3.bind("<Button-1>", self.useCategory3)
-        
-        self.Button4 = tk.Button(self.container, text=self.categorytitles[3])
-        self.Button4.pack(pady = 1,fill='x')
-        self.Button4.bind("<Button-1>", self.useCategory4)
-        
-        self.Button5 = tk.Button(self.container, text=self.categorytitles[4])
-        self.Button5.pack(pady = 1,fill='x')
-        self.Button5.bind("<Button-1>", self.useCategory5)
-        
-        self.HomeButton = tk.Button(self.container, text="Home", fg="green")
-        self.HomeButton.pack(pady=10)
-        self.HomeButton.bind("<Button-1>", self.home)
-        
-        self.ExitButton = tk.Button(self.container, text="Exit", fg="red")
-        self.ExitButton.pack(pady=1)
-        self.ExitButton.bind("<Button-1>", self.exitWindow)
-        
-    def useCategory1(self, event):
-        
-        self.selectedCategory = self.allcategories[0]
-        self.selectedTitle = self.categorytitles[0]
-        
-        self.parent.destroy()
-        
-    def useCategory2(self, event):
-        
-        self.selectedCategory = self.allcategories[1]
-        self.selectedTitle = self.categorytitles[1]
-        
-        self.parent.destroy()
-        
-    def useCategory3(self, event):
-        
-        self.selectedCategory = self.allcategories[2]
-        self.selectedTitle = self.categorytitles[2]
-        
-        self.parent.destroy()
-        
-    def useCategory4(self, event):
-        
-        self.selectedCategory = self.allcategories[3]
-        self.selectedTitle = self.categorytitles[3]
-        
-        self.parent.destroy()
-        
-    def useCategory5(self, event):
-        
-        self.selectedCategory = self.allcategories[4]
-        self.selectedTitle = self.categorytitles[4]
-        
-        self.parent.destroy()
-    
-    def home(self, event):
-        
-        self.returnHome = True
-        
-        self.parent.destroy()
-        
-    def exitWindow(self, event):
-        
-        self.exit = True
-        
-        self.parent.destroy()
-        
-    def getCategory(self):
-        
-        return self.selectedCategory, self.selectedTitle
-    
-    def getHome(self):
-        
-        return self.returnHome
-    
-    def getExit(self):
-        
-        return self.exit
-        
-
-class CategoryCheckApp:
-    
-    def __init__(self, parent):
-        self.parent = parent
-        self.returnHome = False
-        self.exit = False
-        
-        self.allcategories = ['PersonalComputerPCOfDesktop_3',
-                              'MobieleTelefoonOfSmartphone_6','Spelcomputer_7',
-                              'SpelletjesMuziekAfSpelenDownloaden_44',
-                              'SociaalNetwerk_31']
-        
-        self.categorytitles = ['Using Internet on a Personal Computer',
-                               'Using internet on a Smartphone',
-                               'Using internet on a Gaming System',
-                               'Using internet to play and download music and/or games',
-                               'Using internet for Social Media']
-        self.selectedCategories = []
-        self.selectedTitles = []
-        
-        self.label = tk.Label(text = "Choose the categories to compare:")
-        self.label.pack()
-        
-        # Make container
-        self.container = tk.Frame(self.parent)
-        self.container.pack(padx=20, pady=20)
-
-        self.var1 = tk.IntVar()
-        checkButton1 = tk.Checkbutton(self.container, text=self.categorytitles[0], variable=self.var1)
-        checkButton1.pack()
-        
-        self.var2 = tk.IntVar()
-        checkButton2 = tk.Checkbutton(self.container, text=self.categorytitles[1], variable=self.var2)
-        checkButton2.pack()
-        
-        self.var3 = tk.IntVar()
-        checkButton3 = tk.Checkbutton(self.container, text=self.categorytitles[2], variable=self.var3)
-        checkButton3.pack()
-        
-        self.var4 = tk.IntVar()
-        checkButton4 = tk.Checkbutton(self.container, text=self.categorytitles[3], variable=self.var4)
-        checkButton4.pack()
-        
-        self.var5 = tk.IntVar()
-        checkButton5 = tk.Checkbutton(self.container, text=self.categorytitles[4], variable=self.var5)
-        checkButton5.pack()
-        
-        self.vars = [self.var1, self.var2, self.var3, self.var4, self.var5]
-        
-        nextButton = tk.Button(self.container, text="Next")
-        nextButton.pack()
-        nextButton.bind("<Button-1>", self.nextPage)
-        
-        self.HomeButton = tk.Button(self.container, text="Home", fg="green")
-        self.HomeButton.pack(pady=10)
-        self.HomeButton.bind("<Button-1>", self.home)
-        
-        self.ExitButton = tk.Button(self.container, text="Exit", fg="red")
-        self.ExitButton.pack(pady=1)
-        self.ExitButton.bind("<Button-1>", self.exitWindow)
-        
-    def nextPage(self, event):
-        
-        for i in range(len(self.vars)):
-            if self.vars[i].get() == 1:
-                self.selectedCategories.append(self.allcategories[i])
-                self.selectedTitles.append(self.categorytitles[i])
-        
-        print(self.selectedCategories)
-        self.parent.destroy()
-        
-    def home(self, event):
-        
-        self.returnHome = True
-        
-        self.parent.destroy()
-        
-    def exitWindow(self, event):
-        
-        self.exit = True
-        
-        self.parent.destroy()
-        
-    def getCategories(self):
-        
-        return self.selectedCategories, self.selectedTitles
-    
-    def getHome(self):
-        
-        return self.returnHome
-    
-    def getExit(self):
-        
-        return self.exit
-
-
-class SocietyChoiceApp:
-    
-    def __init__(self, parent):
-        self.parent = parent
-        self.returnHome = False
-        self.exit = False
-        
-        self.societyParts = [['1014752', '1014753', '1014754', '1014755', '1014756'], 
-                             ['1012600','2012605'], ['2018700', '2018740', '2018790'],
-                             ['3000795','3000805'], ['2021209','2021211','2021230','2021240']]
-        self.societyTitles = [['First 20%', 'Second 20%','Thirth 20%','Fourth 20%','Fifth 20%'],
-                              ['Imigration background', 'No imigration background'],
-                              ['vmbo', 'havo/vwo', 'hbo/wo'], ['unemployed','employed'],
-                              ['parttime','<20h','20-35h','Fulltime']]
-        self.globalTitles = ['Different Paygrades', 'Imigration Background', 
-                             'Educational Attainment', 'Employmend', 'Working Hours']
-        self.selectedParts = []
-        self.selectedTitles = []
-        
-        self.label = tk.Label( text = "Choose the parts of society to compare:")
-        self.label.pack(padx=50)
-        
-        
-        self.container = tk.Frame(self.parent, width=300, height = 200)
-        self.container.pack(padx=20, pady = 20)
-        
-        
-        self.Button1 = tk.Button(self.container, text = self.globalTitles[0])
-        self.Button1.pack(pady = 1,  fill='x')
-        self.Button1.bind("<Button-1>", self.useSociety1)
-        
-        self.Button2 = tk.Button(self.container, text = self.globalTitles[1])
-        self.Button2.pack(pady = 1,fill='x')
-        self.Button2.bind("<Button-1>", self.useSociety2)
-        
-        self.Button3 = tk.Button(self.container, text = self.globalTitles[2])
-        self.Button3.pack(pady = 1,fill='x')
-        self.Button3.bind("<Button-1>", self.useSociety3)
-        
-        self.Button4 = tk.Button(self.container, text = self.globalTitles[3])
-        self.Button4.pack(pady = 1,fill='x')
-        self.Button4.bind("<Button-1>", self.useSociety4)
-        
-        self.Button5 = tk.Button(self.container, text = self.globalTitles[4])
-        self.Button5.pack(pady = 1,fill='x')
-        self.Button5.bind("<Button-1>", self.useSociety5)
-        
-        self.HomeButton = tk.Button(self.container, text="Home", fg="green")
-        self.HomeButton.pack(pady=10)
-        self.HomeButton.bind("<Button-1>", self.home)
-        
-        self.ExitButton = tk.Button(self.container, text="Exit", fg="red")
-        self.ExitButton.pack(pady=1)
-        self.ExitButton.bind("<Button-1>", self.exitWindow)
-        
-        
-    def useSociety1(self, event):
-        
-        self.selectedParts = self.societyParts[0]
-        self.selectedTitles = self.societyTitles[0]
-        
-        self.parent.destroy()
-        
-    def useSociety2(self, event):
-        
-        self.selectedParts = self.societyParts[1]
-        self.selectedTitles = self.societyTitles[1]
-        
-        self.parent.destroy()
-        
-    def useSociety3(self, event):
-        
-        self.selectedParts = self.societyParts[2]
-        self.selectedTitles = self.societyTitles[2]
-        
-        self.parent.destroy()
-        
-    def useSociety4(self, event):
-        
-        self.selectedParts = self.societyParts[3]
-        self.selectedTitles = self.societyTitles[3]
-        
-        self.parent.destroy()
-        
-    def useSociety5(self, event):
-        
-        self.selectedParts = self.societyParts[4]
-        self.selectedTitles = self.societyTitles[4]
-        
-        self.parent.destroy()
-        
-    def home(self, event):
-        
-        self.returnHome = True
-        
-        self.parent.destroy()
-        
-    def exitWindow(self, event):
-        
-        self.exit = True
-        
-        self.parent.destroy()
-        
-    def getSocietyPart(self):
-        
-        return self.selectedParts, self.selectedTitles
-    
-    def getHome(self):
-        
-        return self.returnHome
-    
-    def getExit(self):
-        
-        return self.exit
-    
-
-class LineApp:
-
-    def __init__(self, parent, data, labels, title):
-        self.parent = parent
-        self.years = ['2012','2013','2014','2015','2016','2017','2018']
-        self.returnHome = False
-        self.exit = False
-        
-        # Make frame
-        frame = tk.Frame(self.parent)
-
-        # Make a figure and insert the plot
-        fig = Figure()
-        ax = fig.add_subplot(111)
-        for i in range(len(data)):
-            ax.plot(self.years, data[i], label=labels[i])
-        ax.legend(loc="upper right")
-        ax.grid()
-        ax.set_title(title)
-        ax.set_ylim([0,100])
-        
-        # Make a canvas in the frame and add figure
-        self.canvas = FigureCanvasTkAgg(fig, master=parent)
-        self.canvas.draw()
-        self.canvas.get_tk_widget().pack(side="top", fill="both", expand=1)
-        frame.pack()
-        
-        self.HomeButton = tk.Button(text="Home", fg="green")
-        self.HomeButton.pack(pady=10)
-        self.HomeButton.bind("<Button-1>", self.home)
-        
-        self.ExitButton = tk.Button(text="Exit", fg="red")
-        self.ExitButton.pack(pady=1)
-        self.ExitButton.bind("<Button-1>", self.exitWindow)
-        
-    def home(self, event):
-        
-        self.returnHome = True
-        
-        self.parent.destroy()
-        
-    def exitWindow(self, event):
-        
-        self.exit = True
-        
-        self.parent.destroy()
-        
-    def getHome(self):
-        
-        return self.returnHome
-    
-    def getExit(self):
-        
-        return self.exit
-
-class BarApp:
-    
-    def __init__(self, parent, data, titles, title):
-        self.parent = parent
-        self.returnHome = False
-        self.exit = False
-        
-        # Make frame
-        frame = tk.Frame(self.parent) 
-        
-        # Make a figure and insert barplot
-        fig = Figure()
-        barwidth = 0.25
-        y_pos = np.arange(len(titles))
-        y_pos2 = [x + barwidth for x in y_pos]
-        ax = fig.add_subplot(111)
-        ax.bar(y_pos, data[0], color="blue", width=barwidth, label="Men")
-        ax.bar(y_pos2, data[1], color="red", width=barwidth, label="Women")
-        ax.legend(loc="upper right")
-        ax.set_xticks(y_pos + barwidth / 2)
-        ax.set_xticklabels(titles)
-        ax.set_ylim([0,100])
-        ax.grid()
-        ax.set_title(title)
-        
-        # Make a canvas in the frame and add figure
-        self.canvas = FigureCanvasTkAgg(fig, master=parent)
-        self.canvas.draw()
-        self.canvas.get_tk_widget().pack(side="top", fill="both", expand=1)
-        frame.pack()  
-        
-        self.HomeButton = tk.Button(text="Home", fg="green")
-        self.HomeButton.pack(pady=10)
-        self.HomeButton.bind("<Button-1>", self.home)
-        
-        self.ExitButton = tk.Button(text="Exit", fg="red")
-        self.ExitButton.pack(pady=1)
-        self.ExitButton.bind("<Button-1>", self.exitWindow)
-        
-    def home(self, event):
-        
-        self.returnHome = True
-        
-        self.parent.destroy()
-        
-    def exitWindow(self, event):
-        
-        self.exit = True
-        
-        self.parent.destroy()
-        
-    def getHome(self):
-        
-        return self.returnHome
-    
-    def getExit(self):
-        
-        return self.exit
+import CategoryChoiceApp as co
+import CategoryCheckApp as ce
+import SocietyChoiceApp as s
+import QuestionApp as q
+import LineApp as l
+import BarApp as b
 
 # Quick function to load up a file correctly.
 def loadData(file):
@@ -621,33 +126,32 @@ def genderDemo(categories):
     return [manresults, womanresults], categories
          
 
-question = []
-
 def main():
     
     while True:
         
         # Create first frame
         root1 = tk.Tk()
-        app0 = QuestionApp(root1)
+        app0 = q.QuestionApp(root1)
         root1.lift()
         root1.title("Subject")
         root1.mainloop()
         
-        print(app0.getExit())
+        print(app0.getQuestion())
         
         if app0.getExit():
             sys.exit()
         
         data = []
         labels = []
+        question = app0.getQuestion()
     
         try:
             # Check which question is selected
-            if question[-1] == "Q1":
+            if question == "Q1":
                 # Create frame to select a category
                 root2 = tk.Tk()
-                app = CategoryChoiceApp(root2)
+                app = co.CategoryChoiceApp(root2)
                 root2.lift()
                 root2.title("Category")
                 root2.mainloop()
@@ -664,7 +168,7 @@ def main():
                     
                     # Create frame to plot
                     root3 = tk.Tk()
-                    app4 = LineApp(root3, data, labels, title)
+                    app4 = l.LineApp(root3, data, labels, title)
                     root3.lift()
                     root3.title("Data")
                     root3.mainloop()
@@ -672,10 +176,10 @@ def main():
                     if app4.getExit():
                         sys.exit()
                         
-            elif question[-1] == "Q2":
+            elif question == "Q2":
                 # Create frame to select a category
                 root2 = tk.Tk()
-                app1 = CategoryChoiceApp(root2)
+                app1 = co.CategoryChoiceApp(root2)
                 root2.lift()
                 root2.title("Category")
                 root2.mainloop()
@@ -687,7 +191,7 @@ def main():
                     category, title = app1.getCategory()
                     
                     root4 = tk.Tk()
-                    app2 = SocietyChoiceApp(root4)
+                    app2 = s.SocietyChoiceApp(root4)
                     root4.lift()
                     root4.title("Society")
                     root4.mainloop()
@@ -702,7 +206,7 @@ def main():
                         
                         # Create frame to plot
                         root3 = tk.Tk()
-                        app4 = LineApp(root3, data, societyPart[1], title)
+                        app4 = l.LineApp(root3, data, societyPart[1], title)
                         root3.lift()
                         root3.title("Data")
                         root3.mainloop()
@@ -710,10 +214,10 @@ def main():
                         if app4.getExit():
                             sys.exit()
                             
-            elif question[-1] == "Q3":            
+            elif question == "Q3":            
                 # Create frame to select categories
                 root2 = tk.Tk()
-                app = CategoryCheckApp(root2)
+                app = ce.CategoryCheckApp(root2)
                 root2.lift()
                 root2.title("Category")
                 root2.mainloop()
@@ -730,7 +234,7 @@ def main():
                     
                     # Create frame to plot
                     root3 = tk.Tk()
-                    app4 = BarApp(root3, data, titles, title)
+                    app4 = b.BarApp(root3, data, titles, title)
                     root3.lift()
                     root3.title("Data")
                     root3.mainloop()
