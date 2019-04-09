@@ -664,7 +664,7 @@ def main():
                     
                     # Create frame to plot
                     root3 = tk.Tk()
-                    LineApp(root3, data, labels, title)
+                    app4 = LineApp(root3, data, labels, title)
                     root3.lift()
                     root3.title("Data")
                     root3.mainloop()
