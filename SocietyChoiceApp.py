@@ -14,26 +14,34 @@ class SocietyChoiceApp:
         self.returnHome = False
         self.exit = False
         
+        #societies as listed in the data set
         self.societyParts = [['1014752', '1014753', '1014754', '1014755', '1014756'], 
                              ['1012600','2012605'], ['2018700', '2018740', '2018790'],
                              ['3000795','3000805'], ['2021209','2021211','2021230','2021240']]
+        
+        #societies as we want them to be listed in the program
         self.societyTitles = [['First 20%', 'Second 20%','Thirth 20%','Fourth 20%','Fifth 20%'],
                               ['Imigration background', 'No imigration background'],
                               ['vmbo', 'havo/vwo', 'hbo/wo'], ['unemployed','employed'],
                               ['parttime','<20h','20-35h','Fulltime']]
+        
+        #Explanatory names for the differences in data
         self.globalTitles = ['Different Paygrades', 'Imigration Background', 
                              'Educational Attainment', 'Employment', 'Working Hours']
+        
+        #set the selections to empty lists
         self.selectedParts = []
         self.selectedTitles = []
         
+        #label
         self.label = tk.Label( text = "Choose the parts of society to compare:")
         self.label.pack(padx=50)
         
-        
+        #create container
         self.container = tk.Frame(self.parent, width=300, height = 200)
         self.container.pack(padx=20, pady = 20)
         
-        
+        #create buttons to choose part of society
         self.Button1 = tk.Button(self.container, text = self.globalTitles[0])
         self.Button1.pack(pady = 1,  fill='x')
         self.Button1.bind("<Button-1>", self.useSociety1)
@@ -54,6 +62,7 @@ class SocietyChoiceApp:
         self.Button5.pack(pady = 1,fill='x')
         self.Button5.bind("<Button-1>", self.useSociety5)
         
+        #create home and exit button
         self.HomeButton = tk.Button(self.container, text="Home", fg="green")
         self.HomeButton.pack(pady=10)
         self.HomeButton.bind("<Button-1>", self.home)
@@ -62,7 +71,7 @@ class SocietyChoiceApp:
         self.ExitButton.pack(pady=1)
         self.ExitButton.bind("<Button-1>", self.exitWindow)
         
-        
+    #function per society when clicked
     def useSociety1(self, event):
         
         self.selectedParts = self.societyParts[0]
@@ -97,7 +106,7 @@ class SocietyChoiceApp:
         self.selectedTitles = self.societyTitles[4]
         
         self.parent.destroy()
-        
+    #home and exit button functions
     def home(self, event):
         
         self.returnHome = True
@@ -109,7 +118,8 @@ class SocietyChoiceApp:
         self.exit = True
         
         self.parent.destroy()
-        
+    
+    #get selected society
     def getSocietyPart(self):
         
         return self.selectedParts, self.selectedTitles

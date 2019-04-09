@@ -42,14 +42,19 @@ class BarApp:
         self.canvas.get_tk_widget().pack(side="top", fill="both", expand=1)
         frame.pack()  
         
+        #create homebutton
         self.HomeButton = tk.Button(text="Home", fg="green")
         self.HomeButton.pack(pady=10)
         self.HomeButton.bind("<Button-1>", self.home)
         
+        #create exitbutton
         self.ExitButton = tk.Button(text="Exit", fg="red")
         self.ExitButton.pack(pady=1)
         self.ExitButton.bind("<Button-1>", self.exitWindow)
-        
+    
+    
+    #home and exit button functions, same as in lineApp
+    
     def home(self, event):
         
         self.returnHome = True

@@ -53,7 +53,8 @@ class QuestionApp:
     def insertQ3(self, event):
         self.question = "Q3"
         self.parent.destroy()
-        
+    
+    #exit button function
     def exitWindow(self, event):
         
         self.exit = True
@@ -64,6 +65,7 @@ class QuestionApp:
         
         return self.exit
     
+    #get selected question
     def getQuestion(self):
         
         return self.question
