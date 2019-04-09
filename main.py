@@ -157,7 +157,7 @@ def main():
         root1.title("Subject")
         root1.mainloop()
         
-        print(app0.getQuestion())
+       
         
         if app0.getExit():
             sys.exit()
