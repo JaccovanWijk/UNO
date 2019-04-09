@@ -2,26 +2,45 @@
 """
 Created on Tue Mar 19 19:22:52 2019
 
-@author: UNO
+@author: UNO - Unified negotiation organization
 """
+#import relevant modules
 
+#pandas for the datastructures
 import pandas as pd
+#tkinter to make a nice interface
 import tkinter as tk
+#sys to make an exit button
 import sys
 
+#all of the classes
+
+#choosing category to research in the interface
 import CategoryChoiceApp as co
+
+#choosing multiple categories to research in the interface
 import CategoryCheckApp as ce
+
+#choosing  part of society to research
 import SocietyChoiceApp as s
+
+#choosing which question you want to be answered
 import QuestionApp as q
+
+#classes for line and barplots
 import LineApp as l
 import BarApp as b
 
-# Quick function to load up a file correctly.
+# Quick function to load a file correctly.
 def loadData(file):
-    df = pd.read_csv(file, sep=';')
-    df_obj = df.select_dtypes(['object'])
-    df[df_obj.columns] = df_obj.apply(lambda x: x.str.strip())
-    return df
+    try:
+        df = pd.read_csv(file, sep=';')
+        df_obj = df.select_dtypes(['object'])
+        df[df_obj.columns] = df_obj.apply(lambda x: x.str.strip())
+        return df
+    except: 
+        print("Could not load file")
+        return False
 
 # Function that will plot the demo.
 def ageDemo(research):
@@ -50,7 +69,8 @@ def ageDemo(research):
             indexkenmerk = gencodes.index(row.loc['KenmerkenPersonen'])
             indexyear = yearcodes.index(row.loc['Perioden'])
             genresults[indexkenmerk][indexyear] = row.loc[research]
-
+    
+    #replacing all .'s with 0's to avoid potential calculation errors
     for i in range(len(genresults)):
         for j in range(len(genresults[i])):
             if genresults[i][j] == '.':

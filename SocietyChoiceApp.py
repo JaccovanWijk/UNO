@@ -22,7 +22,7 @@ class SocietyChoiceApp:
                               ['vmbo', 'havo/vwo', 'hbo/wo'], ['unemployed','employed'],
                               ['parttime','<20h','20-35h','Fulltime']]
         self.globalTitles = ['Different Paygrades', 'Imigration Background', 
-                             'Educational Attainment', 'Employmend', 'Working Hours']
+                             'Educational Attainment', 'Employment', 'Working Hours']
         self.selectedParts = []
         self.selectedTitles = []
         

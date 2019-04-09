@@ -26,7 +26,7 @@ class LineApp:
         ax = fig.add_subplot(111)
         for i in range(len(data)):
             ax.plot(self.years, data[i], label=labels[i])
-        ax.legend(loc="upper right")
+        ax.legend(loc="upper left")
         ax.grid()
         ax.set_title(title)
         ax.set_ylim([0,100])
