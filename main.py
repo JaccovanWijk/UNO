@@ -8,15 +8,18 @@ Created on Tue Mar 19 19:22:52 2019
 import pandas as pd
 import numpy as np
 import tkinter as tk
+import sys
 
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
 
-class InsertDataApp:
+class QuestionApp:
 
     def __init__(self, parent):
         self.parent = parent
+        self.exit = False
+        
         # Set text and buttons for the questions
         self.text = tk.Label(text= "Which question do you want to be answered?", fg='blue')
         self.text.pack()
@@ -24,8 +27,7 @@ class InsertDataApp:
         self.container = tk.Frame(self.parent)
         self.container.pack(padx= 50, pady=50)
 
-        
-
+        # Initialize all buttons
         self.Q1Button = tk.Button(self.container, text=
                                   "Daily usage in % per age age-group per year" )
         self.Q1Button.pack(pady = 1, fill='x')
@@ -40,6 +42,10 @@ class InsertDataApp:
                                   "Comparing genders by monthly internet usage.")
         self.Q3Button.pack(pady = 1, fill='x')
         self.Q3Button.bind("<Button-1>", self.insertQ3)
+        
+        self.ExitButton = tk.Button(self.container, text="Exit", fg="red")
+        self.ExitButton.pack(pady=1)
+        self.ExitButton.bind("<Button-1>", self.exitWindow)
 
     # Set selected question to global variable
     def insertQ1(self, event):
@@ -53,14 +59,24 @@ class InsertDataApp:
     def insertQ3(self, event):
         question.append("Q3")
         self.parent.destroy()
-
-
+        
+    def exitWindow(self, event):
+        
+        self.exit = True
+        
+        self.parent.destroy()
+    
+    def getExit(self):
+        
+        return self.exit
 
 
 class CategoryChoiceApp:
     
     def __init__(self, parent):
         self.parent = parent
+        self.returnHome = False
+        self.exit = False
         
         self.allcategories = ['PersonalComputerPCOfDesktop_3',
                               'MobieleTelefoonOfSmartphone_6','Spelcomputer_7',
@@ -101,6 +117,14 @@ class CategoryChoiceApp:
         self.Button5.pack(pady = 1,fill='x')
         self.Button5.bind("<Button-1>", self.useCategory5)
         
+        self.HomeButton = tk.Button(self.container, text="Home", fg="green")
+        self.HomeButton.pack(pady=10)
+        self.HomeButton.bind("<Button-1>", self.home)
+        
+        self.ExitButton = tk.Button(self.container, text="Exit", fg="red")
+        self.ExitButton.pack(pady=1)
+        self.ExitButton.bind("<Button-1>", self.exitWindow)
+        
     def useCategory1(self, event):
         
         self.selectedCategory = self.allcategories[0]
@@ -113,14 +137,12 @@ class CategoryChoiceApp:
         self.selectedCategory = self.allcategories[1]
         self.selectedTitle = self.categorytitles[1]
         
-        
         self.parent.destroy()
         
     def useCategory3(self, event):
         
         self.selectedCategory = self.allcategories[2]
         self.selectedTitle = self.categorytitles[2]
-        
         
         self.parent.destroy()
         
@@ -129,7 +151,6 @@ class CategoryChoiceApp:
         self.selectedCategory = self.allcategories[3]
         self.selectedTitle = self.categorytitles[3]
         
-        
         self.parent.destroy()
         
     def useCategory5(self, event):
@@ -137,18 +158,39 @@ class CategoryChoiceApp:
         self.selectedCategory = self.allcategories[4]
         self.selectedTitle = self.categorytitles[4]
         
+        self.parent.destroy()
+    
+    def home(self, event):
+        
+        self.returnHome = True
+        
+        self.parent.destroy()
+        
+    def exitWindow(self, event):
+        
+        self.exit = True
         
         self.parent.destroy()
         
     def getCategory(self):
         
         return self.selectedCategory, self.selectedTitle
+    
+    def getHome(self):
+        
+        return self.returnHome
+    
+    def getExit(self):
+        
+        return self.exit
         
 
 class CategoryCheckApp:
     
     def __init__(self, parent):
         self.parent = parent
+        self.returnHome = False
+        self.exit = False
         
         self.allcategories = ['PersonalComputerPCOfDesktop_3',
                               'MobieleTelefoonOfSmartphone_6','Spelcomputer_7',
@@ -196,6 +238,14 @@ class CategoryCheckApp:
         nextButton.pack()
         nextButton.bind("<Button-1>", self.nextPage)
         
+        self.HomeButton = tk.Button(self.container, text="Home", fg="green")
+        self.HomeButton.pack(pady=10)
+        self.HomeButton.bind("<Button-1>", self.home)
+        
+        self.ExitButton = tk.Button(self.container, text="Exit", fg="red")
+        self.ExitButton.pack(pady=1)
+        self.ExitButton.bind("<Button-1>", self.exitWindow)
+        
     def nextPage(self, event):
         
         for i in range(len(self.vars)):
@@ -206,15 +256,37 @@ class CategoryCheckApp:
         print(self.selectedCategories)
         self.parent.destroy()
         
+    def home(self, event):
+        
+        self.returnHome = True
+        
+        self.parent.destroy()
+        
+    def exitWindow(self, event):
+        
+        self.exit = True
+        
+        self.parent.destroy()
+        
     def getCategories(self):
         
         return self.selectedCategories, self.selectedTitles
+    
+    def getHome(self):
+        
+        return self.returnHome
+    
+    def getExit(self):
+        
+        return self.exit
 
 
 class SocietyChoiceApp:
     
     def __init__(self, parent):
         self.parent = parent
+        self.returnHome = False
+        self.exit = False
         
         self.societyParts = [['1014752', '1014753', '1014754', '1014755', '1014756'], 
                              ['1012600','2012605'], ['2018700', '2018740', '2018790'],
@@ -227,10 +299,9 @@ class SocietyChoiceApp:
                              'Educational Attainment', 'Employmend', 'Working Hours']
         self.selectedParts = []
         self.selectedTitles = []
-        #self.selectedGlobal = ''
         
         self.label = tk.Label( text = "Choose the parts of society to compare:")
-        self.label.pack()
+        self.label.pack(padx=50)
         
         
         self.container = tk.Frame(self.parent, width=300, height = 200)
@@ -257,12 +328,19 @@ class SocietyChoiceApp:
         self.Button5.pack(pady = 1,fill='x')
         self.Button5.bind("<Button-1>", self.useSociety5)
         
+        self.HomeButton = tk.Button(self.container, text="Home", fg="green")
+        self.HomeButton.pack(pady=10)
+        self.HomeButton.bind("<Button-1>", self.home)
+        
+        self.ExitButton = tk.Button(self.container, text="Exit", fg="red")
+        self.ExitButton.pack(pady=1)
+        self.ExitButton.bind("<Button-1>", self.exitWindow)
+        
         
     def useSociety1(self, event):
         
         self.selectedParts = self.societyParts[0]
         self.selectedTitles = self.societyTitles[0]
-        #self.selectedGlobal = self.globalTitles[0]
         
         self.parent.destroy()
         
@@ -270,7 +348,6 @@ class SocietyChoiceApp:
         
         self.selectedParts = self.societyParts[1]
         self.selectedTitles = self.societyTitles[1]
-        #self.selectedGlobal = self.globalTitles[1]
         
         self.parent.destroy()
         
@@ -278,7 +355,6 @@ class SocietyChoiceApp:
         
         self.selectedParts = self.societyParts[2]
         self.selectedTitles = self.societyTitles[2]
-        #self.selectedGlobal = self.globalTitles[2]
         
         self.parent.destroy()
         
@@ -286,7 +362,6 @@ class SocietyChoiceApp:
         
         self.selectedParts = self.societyParts[3]
         self.selectedTitles = self.societyTitles[3]
-        #self.selectedGlobal = self.globalTitles[3]
         
         self.parent.destroy()
         
@@ -294,13 +369,32 @@ class SocietyChoiceApp:
         
         self.selectedParts = self.societyParts[4]
         self.selectedTitles = self.societyTitles[4]
-        #self.selectedGlobal = self.globalTitles[4]
+        
+        self.parent.destroy()
+        
+    def home(self, event):
+        
+        self.returnHome = True
+        
+        self.parent.destroy()
+        
+    def exitWindow(self, event):
+        
+        self.exit = True
         
         self.parent.destroy()
         
     def getSocietyPart(self):
         
-        return self.selectedParts, self.selectedTitles#, self.selectedGlobal
+        return self.selectedParts, self.selectedTitles
+    
+    def getHome(self):
+        
+        return self.returnHome
+    
+    def getExit(self):
+        
+        return self.exit
     
 
 class LineApp:
@@ -308,6 +402,8 @@ class LineApp:
     def __init__(self, parent, data, labels, title):
         self.parent = parent
         self.years = ['2012','2013','2014','2015','2016','2017','2018']
+        self.returnHome = False
+        self.exit = False
         
         # Make frame
         frame = tk.Frame(self.parent)
@@ -328,11 +424,40 @@ class LineApp:
         self.canvas.get_tk_widget().pack(side="top", fill="both", expand=1)
         frame.pack()
         
+        self.HomeButton = tk.Button(text="Home", fg="green")
+        self.HomeButton.pack(pady=10)
+        self.HomeButton.bind("<Button-1>", self.home)
+        
+        self.ExitButton = tk.Button(text="Exit", fg="red")
+        self.ExitButton.pack(pady=1)
+        self.ExitButton.bind("<Button-1>", self.exitWindow)
+        
+    def home(self, event):
+        
+        self.returnHome = True
+        
+        self.parent.destroy()
+        
+    def exitWindow(self, event):
+        
+        self.exit = True
+        
+        self.parent.destroy()
+        
+    def getHome(self):
+        
+        return self.returnHome
+    
+    def getExit(self):
+        
+        return self.exit
 
 class BarApp:
     
     def __init__(self, parent, data, titles, title):
         self.parent = parent
+        self.returnHome = False
+        self.exit = False
         
         # Make frame
         frame = tk.Frame(self.parent) 
@@ -357,6 +482,34 @@ class BarApp:
         self.canvas.draw()
         self.canvas.get_tk_widget().pack(side="top", fill="both", expand=1)
         frame.pack()  
+        
+        self.HomeButton = tk.Button(text="Home", fg="green")
+        self.HomeButton.pack(pady=10)
+        self.HomeButton.bind("<Button-1>", self.home)
+        
+        self.ExitButton = tk.Button(text="Exit", fg="red")
+        self.ExitButton.pack(pady=1)
+        self.ExitButton.bind("<Button-1>", self.exitWindow)
+        
+    def home(self, event):
+        
+        self.returnHome = True
+        
+        self.parent.destroy()
+        
+    def exitWindow(self, event):
+        
+        self.exit = True
+        
+        self.parent.destroy()
+        
+    def getHome(self):
+        
+        return self.returnHome
+    
+    def getExit(self):
+        
+        return self.exit
 
 # Quick function to load up a file correctly.
 def loadData(file):
@@ -373,8 +526,6 @@ def ageDemo(research):
     generations = ['12-18', '18-25', '25-35', '35-45', '45-55', '55-65', '65-75', '75+']
     yearcodes = ['2012JJ00','2013JJ00','2014JJ00','2015JJ00','2016JJ00','2017JJ00','2018JJ00']
     certain = 'MW00000'
-    #research = 'BijnaElkeDag_13'
-    #loading the correct file
     data = loadData(filename)
     
     #creating subset for test
@@ -393,14 +544,7 @@ def ageDemo(research):
         if(row.loc['KenmerkenPersonen'] in gencodes):
             indexkenmerk = gencodes.index(row.loc['KenmerkenPersonen'])
             indexyear = yearcodes.index(row.loc['Perioden'])
-            genresults[indexkenmerk][indexyear] = row.loc[research] 
-    
-#    # Plotting the target values by generation. Including a legend and a label for clarity.
-#    for i in range(len(genresults)):
-#        mp.plot(years, genresults[i], label = generations[i])
-#        mp.ylabel("Percentage of daily usage")
-#        mp.legend()
-#    mp.show()
+            genresults[indexkenmerk][indexyear] = row.loc[research]
 
     for i in range(len(genresults)):
         for j in range(len(genresults[i])):
@@ -410,14 +554,10 @@ def ageDemo(research):
     return genresults, generations
 
 def societyDemo(research, data):
-    
     #Putting the target variables from dataset into easily readable variables and lists.
     filename = '83429NED_UntypedDataSet_19032019_231356.csv'
-    #partspaygrade = ['First 20%', 'Second 20%','Thirth 20%','Fourth 20%','Fifth 20%']
-    #partspaygradecodes = ['1014752', '1014753', '1014754', '1014755', '1014756']
     yearcodes = ['2012JJ00','2013JJ00','2014JJ00','2015JJ00','2016JJ00','2017JJ00','2018JJ00']
     certain = 'MW00000'
-    #research = 'BijnaElkeDag_13'
     societyPartCodes = data[0]
     societyParts = data[1]
     
@@ -442,17 +582,9 @@ def societyDemo(research, data):
             indexyear = yearcodes.index(row.loc['Perioden'])
             data[indexkenmerk][indexyear] = row.loc[research]
     
-#    # Plotting the target values by generation. Including a legend and a label for clarity.
-#    for i in range(len(paygrade)):
-#        mp.plot(years, paygrade[i], label = partspaygrade[i])
-#        mp.ylabel("Percentage of daily usage")
-#        mp.legend()
-#    mp.show()
-    
     return data
     
 def genderDemo(categories):
-    
     #Putting the target variables from dataset into easily readable variables and lists.
     filename = '83429NED_UntypedDataSet_19032019_231356.csv'
     gendercodes = ['3000', '4000']
@@ -486,101 +618,130 @@ def genderDemo(categories):
         manresults[i] = manresults[i]/years
         womanresults[i] = womanresults[i]/years
     
-#    barwidth = 0.25  
-#    y_pos = np.arange(len(categories))
-#    y_pos2 = [x + barwidth for x in y_pos] 
-#    mp.bar(y_pos, manresults, color="blue", width=barwidth)
-#    mp.bar(y_pos2, womanresults, color="red", width=barwidth)
-#    mp.xticks(y_pos, categories)
-#    mp.ylabel('Availebility')
-#    mp.title('Availebility per gender')
-#    
-#    mp.legend()
-#    mp.show()
-    
     return [manresults, womanresults], categories
          
 
 question = []
 
 def main():
-
-    # Create first frame
-    root1 = tk.Tk()
-    InsertDataApp(root1)
-    root1.lift()
-    root1.mainloop()
     
-    data = []
-    labels = []
-
-    try:
-        # Check which question is selected
-        if question[-1] == "Q1":
-            
-            root2 = tk.Tk()
-            app = CategoryChoiceApp(root2)
-            root2.lift()
-            root2.mainloop()
-            
-            category, title = app.getCategory()
-            
-            # Run selected question
-            data, labels = ageDemo(category)
-            
-            # Create frame to plot
-            root3 = tk.Tk()
-            LineApp(root3, data, labels, title)
-            root3.lift()
-            root3.mainloop()
-        elif question[-1] == "Q2":
-            # Create frame to select a category
-            root2 = tk.Tk()
-            app1 = CategoryChoiceApp(root2)
-            root2.lift()
-            root2.mainloop()
-            
-            # Ask for selected category
-            category, title = app1.getCategory()
-            
-            root4 = tk.Tk()
-            app2 = SocietyChoiceApp(root4)
-            root4.lift()
-            root4.mainloop()
-            
-            societyPart = app2.getSocietyPart()
-            
-            # Run selected question
-            data = societyDemo(category, societyPart)
-            
-            # Create frame to plot
-            root3 = tk.Tk()
-            LineApp(root3, data, societyPart[1], title)
-            root3.lift()
-            root3.mainloop()
-        elif question[-1] == "Q3":            
-            # Create frame to select categories
-            root2 = tk.Tk()
-            app = CategoryCheckApp(root2)
-            root2.lift()
-            root2.mainloop()
-            title = 'Internet usage per gender'
-            # Ask for selected categories
-            categories, titles = app.getCategories()
-            
-            # Run selected question
-            data, labels = genderDemo(categories)
-            
-            # Create frame to plot
-            root3 = tk.Tk()
-            BarApp(root3, data, titles, title)
-            root3.lift()
-            root3.mainloop()
-            
-    except Exception as ex:
-        arguments = ex.args
-        print (f"An exception of type {type(ex).__name__} occurred. Arguments:" +
-                                       f"\n {arguments}")
+    while True:
+        
+        # Create first frame
+        root1 = tk.Tk()
+        app0 = QuestionApp(root1)
+        root1.lift()
+        root1.title("Subject")
+        root1.mainloop()
+        
+        print(app0.getExit())
+        
+        if app0.getExit():
+            sys.exit()
+        
+        data = []
+        labels = []
+    
+        try:
+            # Check which question is selected
+            if question[-1] == "Q1":
+                # Create frame to select a category
+                root2 = tk.Tk()
+                app = CategoryChoiceApp(root2)
+                root2.lift()
+                root2.title("Category")
+                root2.mainloop()
+                
+                # Check if exit- or homebutton is pressed
+                if app.getExit():
+                    sys.exit()
+                elif not app.getHome():
+                    # Ask for selected category
+                    category, title = app.getCategory()
+                    
+                    # Run selected question
+                    data, labels = ageDemo(category)
+                    
+                    # Create frame to plot
+                    root3 = tk.Tk()
+                    LineApp(root3, data, labels, title)
+                    root3.lift()
+                    root3.title("Data")
+                    root3.mainloop()
+                    
+                    if app4.getExit():
+                        sys.exit()
+                        
+            elif question[-1] == "Q2":
+                # Create frame to select a category
+                root2 = tk.Tk()
+                app1 = CategoryChoiceApp(root2)
+                root2.lift()
+                root2.title("Category")
+                root2.mainloop()
+                
+                if app1.getExit():
+                    sys.exit()
+                elif not app1.getHome():
+                    # Ask for selected category
+                    category, title = app1.getCategory()
+                    
+                    root4 = tk.Tk()
+                    app2 = SocietyChoiceApp(root4)
+                    root4.lift()
+                    root4.title("Society")
+                    root4.mainloop()
+                    
+                    if app2.getExit():
+                        sys.exit()
+                    elif not app2.getHome():
+                        societyPart = app2.getSocietyPart()
+                        
+                        # Run selected question
+                        data = societyDemo(category, societyPart)
+                        
+                        # Create frame to plot
+                        root3 = tk.Tk()
+                        app4 = LineApp(root3, data, societyPart[1], title)
+                        root3.lift()
+                        root3.title("Data")
+                        root3.mainloop()
+                        
+                        if app4.getExit():
+                            sys.exit()
+                            
+            elif question[-1] == "Q3":            
+                # Create frame to select categories
+                root2 = tk.Tk()
+                app = CategoryCheckApp(root2)
+                root2.lift()
+                root2.title("Category")
+                root2.mainloop()
+                title = 'Internet usage per gender'
+                
+                if app.getExit():
+                    sys.exit()
+                elif not app.getHome():
+                    # Ask for selected categories
+                    categories, titles = app.getCategories()
+                    
+                    # Run selected question
+                    data, labels = genderDemo(categories)
+                    
+                    # Create frame to plot
+                    root3 = tk.Tk()
+                    app4 = BarApp(root3, data, titles, title)
+                    root3.lift()
+                    root3.title("Data")
+                    root3.mainloop()
+                    
+                    if app4.getExit():
+                        sys.exit()
+                
+        except Exception as ex:
+            arguments = ex.args
+            print (f"An exception of type {type(ex).__name__} occurred. Arguments:" +
+                                           f"\n {arguments}")
 
 if __name__ == "__main__":
    main()  
